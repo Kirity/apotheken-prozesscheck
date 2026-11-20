@@ -1,437 +1,467 @@
 <!doctype html>
-<html lang="de"><head>
+<html lang="de">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="Apotheken ProzessCheck: Vier digitale Ideen und ein kurzer Check für administrative Abläufe in Apotheken.">
-<title>Apotheken ProzessCheck – Weniger Papierkram</title>
-<style>
-    html{scroll-behavior:smooth}
-    body{margin:0;background:#faf9f4}
-    #pc-site{--ink:#20352c;--muted:#66776b;--green:#226b4c;--line:#e2e8df;--cream:#faf9f4;color:var(--ink);background:var(--cream);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
-    #pc-site *{box-sizing:border-box}
-    #pc-site button,#pc-site input{font:inherit}
-    #pc-site button{cursor:pointer}
-    #pc-site a{color:inherit;text-decoration:none}
-    #pc-site .wrap{max-width:1100px;margin:auto;padding-left:clamp(18px,4vw,50px);padding-right:clamp(18px,4vw,50px)}
-    #pc-site .header{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
-    #pc-site .logo{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;letter-spacing:-.6px}
-    #pc-site .logo-mark{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:var(--green);color:#fff;font-size:23px}
-    #pc-site .logo em{font-style:normal;color:var(--green)}
-    #pc-site .nav{display:flex;align-items:center;gap:20px;font-size:11px;font-weight:700}
-    #pc-site .nav-cta{background:var(--ink);color:#fff;border-radius:8px;padding:10px 13px}
-    #pc-site .eyebrow{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;font-weight:800;color:var(--green)}
-    #pc-site .hero{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:32px;padding-top:76px;padding-bottom:75px}
-    #pc-site h1{font-size:clamp(35px,5.1vw,62px);line-height:1.1;letter-spacing:-2.4px;margin:18px 0 22px;font-weight:800}
-    #pc-site h1 em{font-style:normal;color:var(--green)}
-    #pc-site h2{font-size:clamp(27px,3.6vw,40px);letter-spacing:-1.3px;line-height:1.17;margin:12px 0 15px}
-    #pc-site .lead{font-size:15px;color:var(--muted);line-height:1.8;max-width:465px;margin:0 0 25px}
-    #pc-site .hero-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    #pc-site .primary{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--green);color:white;border:1px solid var(--green);border-radius:9px;padding:13px 18px;font-size:12px;font-weight:750}
-    #pc-site .secondary{display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd9ce;border-radius:9px;padding:13px 17px;font-size:12px;font-weight:750;background:transparent}
-    #pc-site .primary:hover{background:#174f37}
-    #pc-site .hero-visual{position:relative;min-height:355px;border-radius:23px;background:#e6efe5;display:grid;place-items:center;padding:23px;overflow:hidden}
-    #pc-site .hero-visual:before{content:"";position:absolute;width:340px;height:340px;border:1px solid #b9d5c0;border-radius:50%}
-    #pc-site .hero-visual:after{content:"";position:absolute;width:250px;height:250px;border:1px solid #b9d5c0;border-radius:50%;transform:scale(1.5)}
-    #pc-site .dashboard{position:relative;z-index:1;width:100%;max-width:315px;background:#fff;border:1px solid #dfebe1;border-radius:14px;padding:18px;box-shadow:0 20px 55px #244b3225;transform:rotate(-3deg);animation:pc-float 5s ease-in-out infinite}
-    #pc-site .dash-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #edf1ec;padding-bottom:13px;font-size:12px;font-weight:800}
-    #pc-site .sample{font-size:9px;color:#976224;background:#fff1dd;border-radius:20px;padding:4px 8px}
-    #pc-site .dash-row{display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f2ef;padding:11px 0}
-    #pc-site .dash-icon{width:34px;height:34px;display:grid;place-items:center;background:#edf5ed;border-radius:9px;font-size:17px}
-    #pc-site .dash-text{flex:1}
-    #pc-site .dash-text b{display:block;font-size:11px}
-    #pc-site .dash-text small{display:block;font-size:9px;color:#819087}
-    #pc-site .dash-state{font-size:17px;color:#378e5c}
-    #pc-site .floating{position:absolute;z-index:2;bottom:20px;right:8px;background:white;border-radius:10px;padding:11px 14px;box-shadow:0 10px 25px #214b3324;font-size:10px;font-weight:750;animation:pc-float 5s 1s ease-in-out infinite}
-    #pc-site .trust{background:#f0f2e9;border-block:1px solid #e5e8dc}
-    #pc-site .trust-inner{padding-top:18px;padding-bottom:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;font-weight:650;color:#657668}
-    #pc-site .trust-inner span:before{content:"✓";color:var(--green);margin-right:8px}
-    #pc-site .section{padding-top:76px;padding-bottom:76px}
-    #pc-site .section-lead{font-size:13px;line-height:1.8;color:var(--muted);max-width:570px;margin:0 0 30px}
-    #pc-site .cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-    #pc-site .case{background:#fff;border:1px solid var(--line);border-radius:14px;padding:19px 15px;min-height:205px;text-align:left;display:flex;flex-direction:column;gap:11px;transition:transform .2s,border-color .2s,box-shadow .2s;color:var(--ink)}
-    #pc-site .case:hover{transform:translateY(-4px);box-shadow:0 8px 20px #244d3212}
-    #pc-site .case.selected{border:2px solid var(--green);padding:18px 14px}
-    #pc-site .case-number{font-size:9px;letter-spacing:1px;color:#8b998e;font-weight:800}
-    #pc-site .case-icon{width:43px;height:43px;border-radius:11px;background:#eaf2e8;display:grid;place-items:center;font-size:23px}
-    #pc-site .case:nth-child(2) .case-icon{background:#fff1e0}
-    #pc-site .case:nth-child(3) .case-icon{background:#e9effb}
-    #pc-site .case:nth-child(4) .case-icon{background:#f3eafa}
-    #pc-site .case b{font-size:13px;line-height:1.35}
-    #pc-site .case small{font-size:10px;color:var(--muted);line-height:1.5}
-    #pc-site .case-arrow{align-self:flex-end;margin-top:auto;color:var(--green);font-size:20px}
-    #pc-site .demo{background:#f0f3ec;border-block:1px solid #e1e8dc;padding-top:67px;padding-bottom:75px}
-    #pc-site .demo-header{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:25px}
-    #pc-site .demo-header h2{margin-bottom:0}
-    #pc-site .modes{display:flex;gap:4px;background:#e2e9df;border-radius:10px;padding:4px}
-    #pc-site .modes button{border:0;border-radius:7px;background:transparent;padding:10px 14px;font-size:11px;font-weight:750;color:#657568}
-    #pc-site .modes button.active{background:#fff;color:var(--green);box-shadow:0 2px 7px #183e2714}
-    #pc-site .board{background:#fff;border:1px solid #dfe6dd;border-radius:18px;box-shadow:0 14px 40px #203c2910;overflow:hidden}
-    #pc-site .board-top{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:24px 26px 19px;border-bottom:1px solid #edf0e9}
-    #pc-site .board-top h3{font-size:21px;letter-spacing:-.6px;margin:5px 0}
-    #pc-site .board-top p{font-size:12px;color:var(--muted);margin:0}
-    #pc-site .board-tag{font-size:9px;font-weight:800;color:var(--green);background:#e8f3eb;border-radius:20px;padding:7px 11px;white-space:nowrap}
-    #pc-site .board-tag.manual{background:#fff0e0;color:#98632b}
-    #pc-site .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:35px 24px 30px;position:relative;background:radial-gradient(circle at center,#f8fbf7,#fff 75%)}
-    #pc-site .flow:before{content:"";position:absolute;height:2px;left:12%;right:12%;top:79px;background:#dce7dd}
-    #pc-site .flow-node{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;opacity:.45;transition:opacity .3s,transform .3s;position:relative;min-width:0}
-    #pc-site .flow-node.active,#pc-site .flow-node.done{opacity:1}
-    #pc-site .flow-node.active{transform:translateY(-5px)}
-    #pc-site .step-num{font-size:9px;font-weight:800;color:#8a9b8e}
-    #pc-site .flow-icon{height:64px;width:64px;border-radius:17px;border:1px solid #dce7dc;background:#f1f5f0;display:grid;place-items:center;font-size:26px;position:relative;z-index:1;transition:all .3s}
-    #pc-site .flow-node.active .flow-icon{background:var(--green);border-color:var(--green);box-shadow:0 0 0 7px #dbeee0,0 12px 22px #286b4a27;animation:pc-pulse 2.2s ease-in-out infinite}
-    #pc-site .flow-node.done .flow-icon{background:#e2f0e5;border-color:#bad8c3}
-    #pc-site .flow-node b{font-size:11px;line-height:1.35}
-    #pc-site .flow-node small{font-size:9px;color:#708077;line-height:1.4}
-    #pc-site .status{display:flex;align-items:center;gap:11px;margin:0 25px 23px;padding:13px 15px;background:#f1f6f1;border-radius:10px;min-height:52px}
-    #pc-site .status-dot{height:9px;width:9px;border-radius:50%;background:#49a16b;box-shadow:0 0 0 4px #d9eede;flex-shrink:0}
-    #pc-site .status b{display:block;font-size:11px}
-    #pc-site .status small{display:block;font-size:10px;color:var(--muted)}
-    #pc-site .board-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #edf0e9;padding:15px 25px}
-    #pc-site .progress{display:flex;gap:5px;flex:1;max-width:220px}
-    #pc-site .progress span{height:5px;flex:1;border-radius:6px;background:#e6ece6}
-    #pc-site .progress span.filled{background:#4b9d6b}
-    #pc-site .control-buttons{display:flex;gap:7px}
-    #pc-site .control-buttons button{border:1px solid #dce5dc;background:#fff;border-radius:8px;padding:9px 12px;font-size:11px;font-weight:750}
-    #pc-site .control-buttons .play{background:var(--ink);color:#fff;border-color:var(--ink);min-width:100px}
-    #pc-site .comparison{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
-    #pc-site .compare{background:#fff;border:1px solid #e0e6dc;border-radius:13px;padding:22px;transition:opacity .3s}
-    #pc-site .compare.dim{opacity:.65}
-    #pc-site .compare.focus{border-color:#86b795}
-    #pc-site .compare-label{font-size:10px;font-weight:800;letter-spacing:1px;color:#926735;margin-bottom:12px}
-    #pc-site .compare:last-child .compare-label{color:var(--green)}
-    #pc-site .compare b{font-size:14px;display:block;margin-bottom:7px}
-    #pc-site .compare p{font-size:12px;color:#526459;line-height:1.8;margin:0}
-    #pc-site .disclaimer{font-size:10px;color:#77867b;line-height:1.6;margin:14px 0 0}
-    #pc-site .survey{padding-top:77px;padding-bottom:78px}
-    #pc-site .survey-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:38px;align-items:start}
-    #pc-site .survey-intro{position:sticky;top:20px}
-    #pc-site .survey-intro p{font-size:13px;color:var(--muted);line-height:1.85}
-    #pc-site .survey-badge{display:inline-flex;gap:8px;align-items:center;padding:8px 11px;border-radius:8px;background:#eaf2e8;color:var(--green);font-size:11px;font-weight:750}
-    #pc-site .survey-card{background:white;border:1px solid var(--line);border-radius:17px;padding:27px;box-shadow:0 8px 30px #244d3210}
-    #pc-site .question{border:0;margin:0 0 25px;padding:0 0 23px;border-bottom:1px solid #edf0eb;min-width:0;width:100%}
-    #pc-site .question:last-of-type{border-bottom:0;padding-bottom:0}
-    #pc-site .question legend{font-size:13px;font-weight:800;margin-bottom:13px;padding:0;line-height:1.5}
-    #pc-site .q-num{display:inline-grid;place-items:center;background:#eaf2e8;color:var(--green);border-radius:7px;width:24px;height:24px;font-size:11px;margin-right:8px}
-    #pc-site .choice{display:flex;align-items:center;gap:10px;border:1px solid #e2e9e1;border-radius:9px;padding:11px 12px;margin-bottom:8px;font-size:12px;color:#3e5145;cursor:pointer;transition:border-color .2s,background .2s}
-    #pc-site .choice:hover{border-color:#a2c4ac}
-    #pc-site .choice:has(input:checked){border-color:var(--green);background:#f0f7f0}
-    #pc-site .choice input{accent-color:var(--green);flex-shrink:0}
-    #pc-site .survey-note{font-size:10px;color:#77867b;line-height:1.7;margin-top:14px}
-    #pc-site .survey-result{display:none;margin-top:17px;border:1px solid #b8d6c0;border-radius:11px;padding:17px;background:#f1f7f1}
-    #pc-site .survey-result.visible{display:block}
-    #pc-site .survey-result h3{font-size:15px;margin:0 0 8px}
-    #pc-site .survey-result p{font-size:12px;color:#4c6253;line-height:1.7;white-space:pre-line}
-    #pc-site .copy-btn{background:#fff;color:var(--green);border:1px solid #b6d0be;border-radius:8px;padding:10px 12px;font-size:11px;font-weight:750}
-    #pc-site .about-section{background:#f0f3ec;border-block:1px solid #e1e8dc;padding-top:70px;padding-bottom:70px}
-    #pc-site .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:42px;align-items:center}
-    #pc-site .about-visual{background:#e0ede1;border-radius:20px;min-height:250px;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:13px}
-    #pc-site .about-mini{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #d7e5d9;border-radius:11px;padding:14px;font-size:12px;font-weight:700}
-    #pc-site .about-mini span{font-size:23px}
-    #pc-site .about-copy p{font-size:13px;color:#5c7061;line-height:1.9}
-    #pc-site .about-list{display:flex;flex-direction:column;gap:10px;margin-top:22px}
-    #pc-site .about-point{display:flex;align-items:start;gap:9px;font-size:12px;font-weight:650}
-    #pc-site .about-point span{color:var(--green);font-weight:900}
-    #pc-site .contact-section{padding-top:75px;padding-bottom:75px}
-    #pc-site .contact-panel{background:#183f30;color:white;border-radius:20px;padding:45px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:28px}
-    #pc-site .contact-panel .eyebrow{color:#acd9bc}
-    #pc-site .contact-panel h2{color:#fff}
-    #pc-site .contact-panel p{color:#c4d9cb;font-size:12px;line-height:1.85}
-    #pc-site .contact-panel button{border:0;border-radius:10px;background:#f0d9ac;color:#273b2d;font-size:12px;font-weight:800;padding:15px 17px}
-    #pc-site .contact-status{color:#c6e7d0;font-size:11px;margin-top:9px}
-    #pc-site footer{border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding-top:24px;padding-bottom:30px;color:#7b887e;font-size:10px}
-    @keyframes pc-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(-3deg)}}
-    @keyframes pc-pulse{0%,100%{box-shadow:0 0 0 6px #dbeee0,0 12px 22px #286b4a20}50%{box-shadow:0 0 0 10px #dbeee080,0 12px 22px #286b4a30}}
-    @media(max-width:750px){#pc-site .hero{grid-template-columns:1fr;padding-top:53px;padding-bottom:48px}#pc-site .hero-visual{min-height:295px}#pc-site .nav a:not(.nav-cta){display:none}#pc-site .cases{grid-template-columns:repeat(2,minmax(0,1fr))}#pc-site .case{min-height:180px}#pc-site .section,#pc-site .survey,#pc-site .contact-section{padding-top:55px;padding-bottom:55px}#pc-site .demo,#pc-site .about-section{padding-top:55px;padding-bottom:55px}#pc-site .survey-layout,#pc-site .about-grid{grid-template-columns:1fr;gap:23px}#pc-site .survey-intro{position:static}#pc-site .contact-panel{grid-template-columns:1fr;padding:30px}}
-    @media(max-width:460px){#pc-site .header{height:62px}#pc-site .logo{font-size:14px}#pc-site .nav-cta{font-size:10px;padding:8px 10px}#pc-site h1{letter-spacing:-1.7px}#pc-site .hero-visual{min-height:260px}#pc-site .flow{gap:3px;padding:24px 8px}#pc-site .flow:before{top:68px}#pc-site .flow-icon{height:49px;width:49px;font-size:21px;border-radius:13px}#pc-site .flow-node b{font-size:9px}#pc-site .flow-node small{font-size:8px}#pc-site .board-top{padding:18px}#pc-site .board-top h3{font-size:17px}#pc-site .board-tag{font-size:8px}#pc-site .status{margin:0 13px 15px}#pc-site .board-controls{padding:13px}#pc-site .control-buttons button{font-size:10px;padding:8px 9px}#pc-site .comparison{gap:8px}#pc-site .compare{padding:14px}#pc-site .compare b{font-size:12px}#pc-site .compare p{font-size:10px}#pc-site .survey-card{padding:18px}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#pc-site *,#pc-site *:before,#pc-site *:after{animation:none!important;transition:none!important}}
-  </style>
+<meta name="description" content="Apotheken ProzessCheck – Four interactive pharmacy workflow examples and a bilingual survey.">
+<title>Apotheken ProzessCheck</title>
+<style>body{margin:0;background:#faf9f4}html{scroll-behavior:smooth}
+#apo-v3-site{--ink:#1e342b;--muted:#65766a;--green:#226b4c;--line:#e2e8df;--cream:#faf9f4;color:var(--ink);background:var(--cream);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden;box-sizing:border-box}
+#apo-v3-site *{box-sizing:border-box}
+#apo-v3-site button,#apo-v3-site input{font:inherit}
+#apo-v3-site button{cursor:pointer}
+#apo-v3-site a{text-decoration:none;color:inherit}
+#apo-v3-site .wrap{max-width:1100px;margin:auto;padding-left:clamp(18px,4vw,48px);padding-right:clamp(18px,4vw,48px)}
+#apo-v3-site .header{height:72px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
+#apo-v3-site .brand{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;letter-spacing:-.6px;white-space:nowrap}
+#apo-v3-site .brand-icon{height:32px;width:32px;border-radius:9px;background:var(--green);color:white;display:grid;place-items:center;font-size:22px}
+#apo-v3-site .brand em{font-style:normal;color:var(--green)}
+#apo-v3-site .nav{display:flex;align-items:center;gap:20px;font-size:11px;font-weight:700}
+#apo-v3-site .nav-cta{background:var(--ink);color:#fff;padding:10px 13px;border-radius:8px}
+#apo-v3-site .language{display:flex;align-items:center;background:#e9eee7;padding:3px;border-radius:8px;gap:2px}
+#apo-v3-site .language button{border:0;background:transparent;padding:7px 10px;border-radius:6px;font-size:11px;font-weight:800;color:#65766a}
+#apo-v3-site .language button.active{background:white;color:var(--green);box-shadow:0 1px 5px #1b402014}
+#apo-v3-site .eyebrow{font-size:10px;letter-spacing:1.8px;font-weight:800;color:var(--green);text-transform:uppercase}
+#apo-v3-site h1{font-size:clamp(36px,5.2vw,64px);letter-spacing:-2.5px;line-height:1.09;font-weight:800;margin:18px 0 22px}
+#apo-v3-site h1 em{font-style:normal;color:var(--green)}
+#apo-v3-site h2{font-size:clamp(27px,3.6vw,41px);letter-spacing:-1.3px;line-height:1.18;margin:12px 0 16px}
+#apo-v3-site .lead{font-size:15px;color:var(--muted);line-height:1.85;max-width:470px;margin:0 0 26px}
+#apo-v3-site .hero{display:grid;grid-template-columns:1.07fr .93fr;gap:32px;align-items:center;padding-top:76px;padding-bottom:75px}
+#apo-v3-site .hero-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#apo-v3-site .primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--green);border:1px solid var(--green);color:white;padding:13px 17px;border-radius:9px;font-size:12px;font-weight:750}
+#apo-v3-site .primary:hover{background:#174e36}
+#apo-v3-site .secondary{display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid #cbd8cd;border-radius:9px;padding:13px 17px;font-size:12px;font-weight:750}
+#apo-v3-site .hero-art{min-height:350px;position:relative;display:grid;place-items:center;padding:25px;background:#e7efe5;border-radius:24px;overflow:hidden}
+#apo-v3-site .hero-art:before{content:"";position:absolute;border:1px solid #bcd5c0;border-radius:50%;height:320px;width:320px}
+#apo-v3-site .hero-art:after{content:"";position:absolute;border:1px solid #bcd5c0;border-radius:50%;height:240px;width:240px;transform:scale(1.5)}
+#apo-v3-site .dashboard{width:100%;max-width:320px;background:#fff;position:relative;z-index:1;border:1px solid #dce9df;border-radius:14px;padding:19px;box-shadow:0 20px 55px #244b3220;transform:rotate(-3deg);animation:apo3float 5s ease-in-out infinite}
+#apo-v3-site .dash-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-bottom:13px;border-bottom:1px solid #edf1ec;font-size:12px;font-weight:800}
+#apo-v3-site .dash-sample{background:#fff1dd;color:#986425;border-radius:20px;padding:4px 8px;font-size:9px}
+#apo-v3-site .dash-row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #eff2ee}
+#apo-v3-site .dash-icon{height:34px;width:34px;display:grid;place-items:center;border-radius:9px;background:#edf5ed;font-size:17px}
+#apo-v3-site .dash-text{flex:1;min-width:0}
+#apo-v3-site .dash-text b{display:block;font-size:11px}
+#apo-v3-site .dash-text small{display:block;font-size:9px;color:#819087}
+#apo-v3-site .dash-state{font-size:18px;color:#3b9564}
+#apo-v3-site .floating{position:absolute;right:7px;bottom:18px;z-index:2;background:#fff;border-radius:9px;padding:10px 13px;font-size:10px;font-weight:800;box-shadow:0 10px 25px #244b3220}
+#apo-v3-site .trust{background:#f0f2e9;border-block:1px solid #e5e8dc}
+#apo-v3-site .trust-inner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:18px;padding-bottom:18px;font-size:11px;font-weight:650;color:#667769}
+#apo-v3-site .trust-inner span:before{content:"✓";color:var(--green);margin-right:8px}
+#apo-v3-site .section{padding-top:76px;padding-bottom:76px}
+#apo-v3-site .section-lead{font-size:13px;line-height:1.8;color:var(--muted);max-width:570px;margin:0 0 30px}
+#apo-v3-site .cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+#apo-v3-site .case{background:#fff;border:1px solid var(--line);border-radius:14px;padding:19px 15px;min-height:210px;display:flex;flex-direction:column;gap:11px;text-align:left;color:var(--ink);transition:transform .2s,border-color .2s,box-shadow .2s}
+#apo-v3-site .case:hover{transform:translateY(-4px);box-shadow:0 8px 22px #244d3212}
+#apo-v3-site .case.selected{border:2px solid var(--green);padding:18px 14px}
+#apo-v3-site .case-number{font-size:9px;letter-spacing:1px;color:#89988d;font-weight:800}
+#apo-v3-site .case-icon{height:43px;width:43px;border-radius:11px;background:#eaf2e8;display:grid;place-items:center;font-size:23px}
+#apo-v3-site .case:nth-child(2) .case-icon{background:#fff1e0}
+#apo-v3-site .case:nth-child(3) .case-icon{background:#e9effb}
+#apo-v3-site .case:nth-child(4) .case-icon{background:#f3eafa}
+#apo-v3-site .case b{font-size:13px;line-height:1.35}
+#apo-v3-site .case small{font-size:10px;color:var(--muted);line-height:1.5}
+#apo-v3-site .case-arrow{align-self:flex-end;margin-top:auto;color:var(--green);font-size:20px}
+#apo-v3-site .demo{background:#f0f3ec;border-block:1px solid #e1e8dc;padding-top:68px;padding-bottom:75px}
+#apo-v3-site .demo-header{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:25px}
+#apo-v3-site .demo-header h2{margin-bottom:0}
+#apo-v3-site .modes{display:flex;gap:4px;background:#e2e9df;border-radius:10px;padding:4px}
+#apo-v3-site .modes button{border:0;border-radius:7px;background:transparent;padding:10px 14px;font-size:11px;font-weight:750;color:#657568}
+#apo-v3-site .modes button.active{background:white;color:var(--green);box-shadow:0 2px 7px #183e2714}
+#apo-v3-site .board{background:#fff;border:1px solid #dfe6dd;border-radius:18px;box-shadow:0 14px 40px #203c2910;overflow:hidden}
+#apo-v3-site .board-top{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:24px 26px 19px;border-bottom:1px solid #edf0e9}
+#apo-v3-site .board-top h3{font-size:21px;letter-spacing:-.6px;margin:5px 0}
+#apo-v3-site .board-top p{font-size:12px;color:var(--muted);margin:0}
+#apo-v3-site .board-tag{font-size:9px;font-weight:800;color:var(--green);background:#e8f3eb;border-radius:20px;padding:7px 11px;white-space:nowrap}
+#apo-v3-site .board-tag.manual{background:#fff0e0;color:#98632b}
+#apo-v3-site .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:35px 24px 30px;position:relative;background:radial-gradient(circle at center,#f8fbf7,#fff 75%)}
+#apo-v3-site .flow:before{content:"";position:absolute;height:2px;left:12%;right:12%;top:79px;background:#dce7dd}
+#apo-v3-site .flow-node{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;opacity:.45;transition:opacity .3s,transform .3s;position:relative;min-width:0}
+#apo-v3-site .flow-node.active,#apo-v3-site .flow-node.done{opacity:1}
+#apo-v3-site .flow-node.active{transform:translateY(-5px)}
+#apo-v3-site .step-num{font-size:9px;font-weight:800;color:#8a9b8e}
+#apo-v3-site .flow-icon{height:64px;width:64px;border-radius:17px;border:1px solid #dce7dc;background:#f1f5f0;display:grid;place-items:center;font-size:26px;position:relative;z-index:1;transition:all .3s}
+#apo-v3-site .flow-node.active .flow-icon{background:var(--green);border-color:var(--green);box-shadow:0 0 0 7px #dbeee0,0 12px 22px #286b4a27;animation:apo3pulse 2.2s ease-in-out infinite}
+#apo-v3-site .flow-node.done .flow-icon{background:#e2f0e5;border-color:#bad8c3}
+#apo-v3-site .flow-node b{font-size:11px;line-height:1.35}
+#apo-v3-site .flow-node small{font-size:9px;color:#708077;line-height:1.4}
+#apo-v3-site .status{display:flex;align-items:center;gap:11px;margin:0 25px 23px;padding:13px 15px;background:#f1f6f1;border-radius:10px;min-height:52px}
+#apo-v3-site .status-dot{height:9px;width:9px;border-radius:50%;background:#49a16b;box-shadow:0 0 0 4px #d9eede;flex-shrink:0}
+#apo-v3-site .status b{display:block;font-size:11px}
+#apo-v3-site .status small{display:block;font-size:10px;color:var(--muted)}
+#apo-v3-site .board-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #edf0e9;padding:15px 25px}
+#apo-v3-site .progress{display:flex;gap:5px;flex:1;max-width:220px}
+#apo-v3-site .progress span{height:5px;flex:1;border-radius:6px;background:#e6ece6}
+#apo-v3-site .progress span.filled{background:#4b9d6b}
+#apo-v3-site .control-buttons{display:flex;gap:7px}
+#apo-v3-site .control-buttons button{border:1px solid #dce5dc;background:#fff;border-radius:8px;padding:9px 12px;font-size:11px;font-weight:750}
+#apo-v3-site .control-buttons .play{background:var(--ink);color:#fff;border-color:var(--ink);min-width:100px}
+#apo-v3-site .comparison{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+#apo-v3-site .compare{background:#fff;border:1px solid #e0e6dc;border-radius:13px;padding:22px;transition:opacity .3s}
+#apo-v3-site .compare.dim{opacity:.65}
+#apo-v3-site .compare.focus{border-color:#86b795}
+#apo-v3-site .compare-label{font-size:10px;font-weight:800;letter-spacing:1px;color:#926735;margin-bottom:12px}
+#apo-v3-site .compare:last-child .compare-label{color:var(--green)}
+#apo-v3-site .compare b{font-size:14px;display:block;margin-bottom:7px}
+#apo-v3-site .compare p{font-size:12px;color:#526459;line-height:1.8;margin:0}
+#apo-v3-site .disclaimer{font-size:10px;color:#77867b;line-height:1.6;margin:14px 0 0}
+#apo-v3-site .survey{padding-top:78px;padding-bottom:78px}
+#apo-v3-site .survey-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:38px;align-items:start}
+#apo-v3-site .survey-intro p{font-size:13px;color:var(--muted);line-height:1.85}
+#apo-v3-site .survey-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border-radius:8px;background:#eaf2e8;color:var(--green);font-size:11px;font-weight:750}
+#apo-v3-site .survey-card{background:white;border:1px solid var(--line);border-radius:17px;padding:27px;box-shadow:0 8px 30px #244d3210}
+#apo-v3-site .question{border:0;margin:0 0 25px;padding:0 0 23px;border-bottom:1px solid #edf0eb;min-width:0;width:100%}
+#apo-v3-site .question legend{font-size:13px;font-weight:800;margin-bottom:13px;padding:0;line-height:1.5}
+#apo-v3-site .q-num{display:inline-grid;place-items:center;background:#eaf2e8;color:var(--green);border-radius:7px;width:24px;height:24px;font-size:11px;margin-right:8px}
+#apo-v3-site .choice{display:flex;align-items:center;gap:10px;border:1px solid #e2e9e1;border-radius:9px;padding:11px 12px;margin-bottom:8px;font-size:12px;color:#3e5145;cursor:pointer;transition:border-color .2s,background .2s}
+#apo-v3-site .choice:hover{border-color:#a2c4ac}
+#apo-v3-site .choice:has(input:checked){border-color:var(--green);background:#f0f7f0}
+#apo-v3-site .choice input{accent-color:var(--green);flex-shrink:0}
+#apo-v3-site .field-label{font-size:12px;font-weight:800;display:block;margin-bottom:8px}
+#apo-v3-site .email-input{width:100%;padding:12px 13px;border:1px solid #d6e1d8;border-radius:9px;background:white;color:#24372b;font-size:13px}
+#apo-v3-site .privacy-check{display:flex;align-items:flex-start;gap:10px;font-size:11px;color:#52665a;line-height:1.65;margin:20px 0}
+#apo-v3-site .privacy-check input{margin-top:4px;accent-color:var(--green);flex-shrink:0}
+#apo-v3-site .form-status{font-size:12px;line-height:1.7;margin-top:12px;color:var(--green)}
+#apo-v3-site .survey-note{font-size:10px;color:#77867b;line-height:1.7;margin-top:14px}
+#apo-v3-site .about{background:#f0f3ec;border-block:1px solid #e1e8dc;padding-top:70px;padding-bottom:70px}
+#apo-v3-site .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:42px;align-items:center}
+#apo-v3-site .about-visual{background:#e0ede1;border-radius:20px;min-height:250px;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:13px}
+#apo-v3-site .about-mini{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #d7e5d9;border-radius:11px;padding:14px;font-size:12px;font-weight:700}
+#apo-v3-site .about-mini span{font-size:23px}
+#apo-v3-site .about-copy p{font-size:13px;color:#5c7061;line-height:1.9}
+#apo-v3-site .about-points{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+#apo-v3-site .about-point{display:flex;align-items:start;gap:9px;font-size:12px;font-weight:650}
+#apo-v3-site .about-point span{color:var(--green);font-weight:900}
+#apo-v3-site .contact{padding-top:75px;padding-bottom:75px}
+#apo-v3-site .contact-panel{background:#183f30;color:white;border-radius:20px;padding:45px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:28px}
+#apo-v3-site .contact-panel .eyebrow{color:#acd9bc}
+#apo-v3-site .contact-panel h2{color:#fff}
+#apo-v3-site .contact-panel p{color:#c4d9cb;font-size:12px;line-height:1.85}
+#apo-v3-site .contact-panel button{border:0;border-radius:10px;background:#f0d9ac;color:#273b2d;font-size:12px;font-weight:800;padding:15px 17px}
+#apo-v3-site .contact-status{color:#c6e7d0;font-size:11px;margin-top:9px}
+#apo-v3-site footer{border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding-top:24px;padding-bottom:30px;color:#7b887e;font-size:10px}
+@keyframes apo3float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(-3deg)}}
+@keyframes apo3pulse{0%,100%{box-shadow:0 0 0 6px #dbeee0,0 12px 22px #286b4a20}50%{box-shadow:0 0 0 10px #dbeee080,0 12px 22px #286b4a30}}
+@media(max-width:750px){#apo-v3-site .hero{grid-template-columns:1fr;padding-top:53px;padding-bottom:48px}#apo-v3-site .hero-art{min-height:295px}#apo-v3-site .nav a:not(.nav-cta){display:none}#apo-v3-site .cases{grid-template-columns:repeat(2,minmax(0,1fr))}#apo-v3-site .case{min-height:180px}#apo-v3-site .section,#apo-v3-site .survey,#apo-v3-site .contact{padding-top:55px;padding-bottom:55px}#apo-v3-site .demo,#apo-v3-site .about{padding-top:55px;padding-bottom:55px}#apo-v3-site .survey-layout,#apo-v3-site .about-grid{grid-template-columns:1fr;gap:23px}#apo-v3-site .contact-panel{grid-template-columns:1fr;padding:30px}}
+@media(max-width:460px){#apo-v3-site .header{height:62px}#apo-v3-site .brand{font-size:12px}#apo-v3-site .brand-icon{height:28px;width:28px}#apo-v3-site .nav-cta{display:none}#apo-v3-site .language button{padding:6px 9px}#apo-v3-site h1{letter-spacing:-1.7px}#apo-v3-site .hero-art{min-height:265px}#apo-v3-site .flow{gap:3px;padding:24px 8px}#apo-v3-site .flow:before{top:68px}#apo-v3-site .flow-icon{height:49px;width:49px;font-size:21px;border-radius:13px}#apo-v3-site .flow-node b{font-size:9px}#apo-v3-site .flow-node small{font-size:8px}#apo-v3-site .board-top{padding:18px}#apo-v3-site .board-top h3{font-size:17px}#apo-v3-site .board-tag{font-size:8px}#apo-v3-site .status{margin:0 13px 15px}#apo-v3-site .board-controls{padding:13px}#apo-v3-site .control-buttons button{font-size:10px;padding:8px 9px}#apo-v3-site .comparison{gap:8px}#apo-v3-site .compare{padding:14px}#apo-v3-site .compare b{font-size:12px}#apo-v3-site .compare p{font-size:10px}#apo-v3-site .survey-card{padding:18px}}
+@media(prefers-reduced-motion:reduce){#apo-v3-site *,#apo-v3-site *:before,#apo-v3-site *:after{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-<div id="pc-site" data-app-block-stream-enter="">
-    <header class="header wrap">
-      <a class="logo" href="#pc-home"><span class="logo-mark">+</span><span>Apotheken <em>ProzessCheck</em></span></a>
-      <nav class="nav" aria-label="Hauptnavigation" data-app-block-stream-enter="">
-        <a href="#pc-cases">Beispiele</a>
-        <a href="#pc-survey">ProzessCheck</a>
-        <a href="#pc-about">Über das Projekt</a>
-        <a class="nav-cta" href="#pc-contact">Gespräch starten ↗</a>
-      </nav>
-    </header>
-    <main data-app-block-stream-enter="">
-      <section class="hero wrap" id="pc-home">
-        <div data-app-block-stream-enter="">
-          <div class="eyebrow">✳ Digitale Ideen für Apotheken</div>
-          <h1>Welche Aufgabe kostet Ihre Apotheke <em>unnötig Zeit?</em></h1>
-          <p class="lead">Rechnungen, Retouren, Dokumentation und Rückfragen: Entdecken Sie vier mögliche Verbesserungen für den Apothekenalltag – und finden Sie heraus, wo digitale Unterstützung wirklich sinnvoll wäre.</p>
-          <div class="hero-actions" data-app-block-stream-enter="">
-            <a class="primary" href="#pc-survey">Zum 2-Minuten-ProzessCheck ↗</a>
-            <a class="secondary" href="#pc-cases">Vier Beispiele ansehen ↓</a>
-          </div>
-          <p style="font-size:10px;color:#809084;margin-top:22px" data-app-block-stream-enter="">Unverbindlich · Keine Softwareinstallation · Keine Patientendaten</p>
+<div id="apo-v3-site" data-app-block-stream-enter="">
+  <header class="header wrap">
+    <a class="brand" href="#apo3-home"><span class="brand-icon">+</span><span>Apotheken <em>ProzessCheck</em></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a data-i18n="navCases" data-app-block-stream-enter="" href="#apo3-cases">Beispiele</a>
+      <a data-i18n="navSurvey" data-app-block-stream-enter="" href="#apo3-survey">ProzessCheck</a>
+      <a data-i18n="navAbout" data-app-block-stream-enter="" href="#apo3-about">Über das Projekt</a>
+      <a class="nav-cta" data-i18n="navContact" data-app-block-stream-enter="" href="#apo3-contact">Gespräch starten ↗</a>
+    </nav>
+    <div class="language" role="group" aria-label="Choose language" data-app-block-stream-enter="">
+      <button type="button" data-lang="de" class="active" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+  <main data-app-block-stream-enter="">
+    <section class="hero wrap" id="apo3-home" data-app-block-stream-enter="">
+      <div>
+        <div class="eyebrow" data-i18n="eyebrow">✳ Digitale Ideen für Apotheken</div>
+        <h1><span data-i18n="heroStart">Welche Aufgabe kostet Ihre Apotheke</span> <em data-i18n="heroEnd" data-app-block-stream-enter="">unnötig Zeit?</em></h1>
+        <p class="lead" data-i18n="heroLead" data-app-block-stream-enter="">Rechnungen, Retouren, Dokumentation und Rückfragen: Entdecken Sie vier mögliche Verbesserungen für den Apothekenalltag – und finden Sie heraus, wo digitale Unterstützung wirklich sinnvoll wäre.</p>
+        <div class="hero-actions" data-app-block-stream-enter="">
+          <a class="primary" data-i18n="heroSurvey" data-app-block-stream-enter="" href="#apo3-survey">Zum 2-Minuten-ProzessCheck ↗</a>
+          <a class="secondary" data-i18n="heroExamples" data-app-block-stream-enter="" href="#apo3-cases">Vier Beispiele ansehen ↓</a>
         </div>
-        <div class="hero-visual" aria-label="Illustrative Aufgabenübersicht" data-app-block-stream-enter="">
-          <div class="dashboard">
-            <div class="dash-top"><span>✳ Tagesübersicht</span><span class="sample">Beispieldaten</span></div>
-            <div class="dash-row"><span class="dash-icon">📄</span><span class="dash-text"><b data-app-block-stream-enter="">Lieferschein prüfen</b><small data-app-block-stream-enter="">Abgleich abgeschlossen</small></span><span class="dash-state" data-app-block-stream-enter="">✓</span></div>
-            <div class="dash-row" data-app-block-stream-enter=""><span class="dash-icon">📦</span><span class="dash-text"><b>Gutschrift verfolgen</b><small>Rückmeldung ausstehend</small></span><span style="color:#c98b42;font-size:18px">◷</span></div>
-            <div class="dash-row" data-app-block-stream-enter=""><span class="dash-icon">📋</span><span class="dash-text"><b>QM-Aufgabe</b><small>Heute zu erledigen</small></span><span style="color:#c98b42;font-size:18px">○</span></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#226b4c;font-weight:750;padding-top:13px" data-app-block-stream-enter=""><span>Alle Vorgänge im Blick</span><span style="background:#e3efe5;border-radius:8px;width:80px;height:6px;overflow:hidden"><span style="display:block;background:#4a9b6a;width:65%;height:100%"></span></span></div>
-          </div>
-          <div class="floating" data-app-block-stream-enter=""><span style="color:#3b9463">✓</span> Aufgabe erledigt</div>
+        <p style="font-size:10px;color:#809084;margin-top:22px" data-i18n="heroNote" data-app-block-stream-enter="">Unverbindlich · Keine Softwareinstallation · Keine Patientendaten</p>
+      </div>
+      <div class="hero-art" data-app-block-stream-enter="">
+        <div class="dashboard">
+          <div class="dash-head"><span data-i18n="dashTitle">✳ Tagesübersicht</span><span class="dash-sample" data-i18n="dashSample" data-app-block-stream-enter="">Beispieldaten</span></div>
+          <div class="dash-row" data-app-block-stream-enter=""><span class="dash-icon">📄</span><span class="dash-text"><b data-i18n="dash1">Lieferschein prüfen</b><small data-i18n="dash1sub" data-app-block-stream-enter="">Abgleich abgeschlossen</small></span><span class="dash-state" data-app-block-stream-enter="">✓</span></div>
+          <div class="dash-row" data-app-block-stream-enter=""><span class="dash-icon">📦</span><span class="dash-text"><b data-i18n="dash2">Gutschrift verfolgen</b><small data-i18n="dash2sub">Rückmeldung ausstehend</small></span><span style="color:#c98b42;font-size:18px" data-app-block-stream-enter="">◷</span></div>
+          <div class="dash-row" data-app-block-stream-enter=""><span class="dash-icon">📋</span><span class="dash-text"><b data-i18n="dash3">QM-Aufgabe</b><small data-i18n="dash3sub">Heute zu erledigen</small></span><span style="color:#c98b42;font-size:18px" data-app-block-stream-enter="">○</span></div>
+          <div style="font-size:10px;font-weight:750;color:#226b4c;padding-top:13px" data-i18n="dashFooter" data-app-block-stream-enter="">Alle Vorgänge im Blick</div>
         </div>
-      </section>
-      <div class="trust" data-app-block-stream-enter=""><div class="trust-inner wrap">
-        <span>Bestehende Software ergänzen</span>
-        <span data-app-block-stream-enter="">Kleine Lösungen statt großer Umstellung</span>
-        <span data-app-block-stream-enter="">Keine Patientendaten für den Einstieg</span>
-      </div></div>
-      <section class="section wrap" id="pc-cases" data-app-block-stream-enter="">
-        <div class="eyebrow">01 / Mögliche Verbesserungen</div>
-        <h2>Vier Ideen für weniger Routinearbeit.</h2>
-        <p class="section-lead" data-app-block-stream-enter="">Vielleicht kennen Sie diese Abläufe. Vielleicht löst Ihre bestehende Software sie bereits. Die Beispiele zeigen, wie eine kleine digitale Unterstützung aussehen könnte.</p>
-        <div class="cases" data-app-block-stream-enter="">
-          <button type="button" class="case selected" data-case="0" aria-pressed="true" data-app-block-stream-enter=""><span class="case-number">ANWENDUNGSFALL 01</span><span class="case-icon">📄</span><b>Rechnungen &amp; Lieferscheine</b><small>Unterschiede zwischen Dokumenten schneller erkennen.</small><span class="case-arrow">↗</span></button>
-          <button type="button" class="case" data-case="1" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number" data-app-block-stream-enter="">ANWENDUNGSFALL 02</span><span class="case-icon" data-app-block-stream-enter="">📦</span><b data-app-block-stream-enter="">Retouren &amp; Gutschriften</b><small data-app-block-stream-enter="">Offene Gutschriften und Fristen im Blick behalten.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
-          <button type="button" class="case" data-case="2" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number">ANWENDUNGSFALL 03</span><span class="case-icon">📋</span><b>QM-Dokumentation</b><small>Kontrollen und wiederkehrende Aufgaben organisieren.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
-          <button type="button" class="case" data-case="3" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number">ANWENDUNGSFALL 04</span><span class="case-icon">🗂️</span><b data-app-block-stream-enter="">Offene Aufgaben &amp; Rückfragen</b><small data-app-block-stream-enter="">Zuständigkeiten und offene Vorgänge verfolgen.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
-        </div>
-      </section>
-      <section class="demo" id="pc-demo" data-app-block-stream-enter="">
-        <div class="wrap">
-          <div class="eyebrow">02 / Interaktive Prozessanimation</div>
-          <div class="demo-header">
-            <div data-app-block-stream-enter=""><h2>So könnte es funktionieren.</h2><p style="color:#6a7b6e;font-size:12px;margin:8px 0 0">Ein möglicher heutiger Ablauf im Vergleich mit digitaler Unterstützung.</p></div>
-            <div class="modes" role="group" aria-label="Ablauf vergleichen" data-app-block-stream-enter=""><button type="button" data-mode="before" aria-pressed="false" data-app-block-stream-enter="">Heute</button><button type="button" data-mode="after" class="active" aria-pressed="true" data-app-block-stream-enter="">Mit Unterstützung</button></div>
-          </div>
-          <div class="board" data-app-block-stream-enter="">
-            <div class="board-top">
-              <div><div class="eyebrow" id="pc-case-number">ANWENDUNGSFALL 01</div><h3 id="pc-case-title">Rechnungen &amp; Lieferscheine</h3><p id="pc-case-intro" data-app-block-stream-enter="">Ein möglicher vereinfachter Belegabgleich.</p></div>
-              <span class="board-tag" id="pc-mode-tag" data-app-block-stream-enter="">DIGITALER ABLAUF</span>
-            </div>
-            <div class="flow" id="pc-flow" aria-label="Animierter Arbeitsablauf" data-app-block-stream-enter=""><div class="flow-node done"><span class="step-num">SCHRITT 01</span><span class="flow-icon">📥</span><b>Belege erfassen</b><small>Dokumentdaten übernehmen</small></div><div class="flow-node active"><span class="step-num">SCHRITT 02</span><span class="flow-icon">⚙️</span><b>Daten abgleichen</b><small>Positionen vergleichen</small></div><div class="flow-node "><span class="step-num">SCHRITT 03</span><span class="flow-icon">⚠️</span><b>Differenz markieren</b><small>Auffälligkeiten anzeigen</small></div><div class="flow-node "><span class="step-num">SCHRITT 04</span><span class="flow-icon">✅</span><b>Mensch prüft</b><small>Ergebnis kontrollieren</small></div></div>
-            <div class="status" aria-live="polite" data-app-block-stream-enter=""><span class="status-dot"></span><div><b id="pc-status-title">Schritt 2 von 4 · Daten abgleichen</b><small id="pc-status-desc">Positionen vergleichen</small></div></div>
-            <div class="board-controls" data-app-block-stream-enter="">
-              <div class="progress" id="pc-progress"><span class="filled"></span><span class="filled"></span><span class=""></span><span class=""></span></div>
-              <div class="control-buttons"><button type="button" id="pc-restart">↺ Neu</button><button type="button" id="pc-next">Weiter →</button><button type="button" class="play" id="pc-play" data-app-block-stream-enter="">Ⅱ Pause</button></div>
-            </div>
-          </div>
-          <div class="comparison" data-app-block-stream-enter="">
-            <div class="compare dim" id="pc-before-card"><div class="compare-label">◷ HEUTE / MÖGLICHER IST-ZUSTAND</div><b id="pc-before-heading" data-app-block-stream-enter="">Mehrere manuelle Prüfschritte</b><p id="pc-before-copy" data-app-block-stream-enter="">Belege sammeln, Angaben vergleichen und mögliche Differenzen einzeln nachverfolgen.</p></div>
-            <div class="compare focus" id="pc-after-card" data-app-block-stream-enter=""><div class="compare-label">✓ MIT DIGITALER UNTERSTÜTZUNG</div><b id="pc-after-heading">Auffälligkeiten gezielt prüfen</b><p id="pc-after-copy">Ein digitaler Helfer könnte Dokumente strukturieren und Abweichungen zur menschlichen Prüfung hervorheben.</p></div>
-          </div>
-          <p class="disclaimer" data-app-block-stream-enter="">Konzeptionelle Beispiele, keine fertige Apothekensoftware. Ob und wie viel Zeit gespart werden kann, muss im konkreten Betrieb geprüft werden. Gesetzliche Dokumentationspflichten bleiben bestehen.</p>
-        </div>
-      </section>
-      <section class="survey wrap" id="pc-survey" data-app-block-stream-enter="">
-        <div class="survey-layout">
-          <div class="survey-intro">
-            <div class="eyebrow">03 / Ihr ProzessCheck</div>
-            <h2>Was kostet Sie wirklich Zeit?</h2>
-            <p data-app-block-stream-enter="">Jede Apotheke arbeitet anders. Mit drei kurzen Fragen lässt sich herausfinden, ob eine dieser Ideen für Ihren Betrieb überhaupt relevant sein könnte.</p>
-            <div class="survey-badge" data-app-block-stream-enter="">◷ Etwa 2 Minuten · 3 Fragen</div>
-            <p style="font-size:11px;margin-top:20px" data-app-block-stream-enter="">Ihre Antworten bleiben in Ihrem Browser. Es gibt keine automatische Übermittlung, Speicherung auf einem Server oder Anmeldung.</p>
-          </div>
-          <form class="survey-card" id="pc-form" data-app-block-stream-enter="" action="https://formspree.io/f/xoednjod" method="POST">
-            <fieldset class="question">
-              <legend><span class="q-num">1</span>Welche Aufgabe kostet aktuell am meisten Zeit?</legend>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Rechnungen und Lieferscheine" required=""> Rechnungen und Lieferscheine prüfen</label>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Retouren und Gutschriften"> Retouren und Gutschriften verfolgen</label>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="QM-Dokumentation"> QM-Dokumentation und Kontrollen</label>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Offene Aufgaben und Rückfragen"> Offene Aufgaben und Rückfragen</label>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Andere Aufgabe"> Eine andere Aufgabe</label>
-            </fieldset>
-            <fieldset class="question" data-app-block-stream-enter="">
-              <legend><span class="q-num">2</span>Wie wird diese Aufgabe heute erledigt?</legend>
-              <label class="choice"><input type="radio" name="digital" value="Überwiegend manuell" required=""> Überwiegend manuell / Papier / Excel</label>
-              <label class="choice"><input type="radio" name="digital" value="Teilweise digital"> Teilweise digital</label>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="digital" value="Bereits digital abgedeckt"> Bereits durch bestehende Software abgedeckt</label>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="digital" value="Noch unklar"> Das müsste ich prüfen</label>
-            </fieldset>
-            <fieldset class="question" data-app-block-stream-enter="">
-              <legend><span class="q-num">3</span>Wäre eine kleine Verbesserung interessant?</legend>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="15-Minuten-Gespräch" required=""> Ja, ein kurzes Gespräch wäre interessant</label>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="Zunächst eine Demo"> Vielleicht, ich würde erst eine Demo sehen</label>
-              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="Nur Feedback"> Ich möchte zunächst nur Feedback geben</label>
-            </fieldset>
-            <div id="pc-formspree-fields">
-            <div style="border-top:1px solid #edf0eb;padding-top:19px;margin-top:8px;margin-bottom:18px">
-              <label for="pc-feedback-email" style="display:block;font-size:13px;font-weight:800;margin-bottom:8px">E-Mail für Rückfragen (optional)</label>
-              <input id="pc-feedback-email" type="email" name="email" autocomplete="email" placeholder="name@beispiel.de" style="display:block;width:100%;padding:12px 13px;border:1px solid #d6e1d8;border-radius:9px;background:#fff;color:#24372b;font-size:13px">
-              <p style="font-size:10px;color:#718075;line-height:1.6;margin:7px 0 0">Nur wenn Sie eine Rückmeldung wünschen. Keine Patientendaten eingeben.</p>
-            </div>
-            <label style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:#52665a;line-height:1.65;margin-bottom:19px">
-              <input type="checkbox" name="privacy_acknowledged" value="yes" required="" style="margin-top:4px;accent-color:#226b4c">
-              <span>Ich habe verstanden, dass meine Antworten und gegebenenfalls meine E-Mail-Adresse über Formspree an den Betreiber dieser Website übermittelt werden. Ich gebe keine Patienten- oder vertraulichen Betriebsdaten an.</span>
-            </label>
-          </div><button type="submit" class="primary" style="width:100%" data-app-block-stream-enter="">Feedback absenden ↗</button><p id="pc-formspree-status" role="status" aria-live="polite" style="font-size: 12px; line-height: 1.6; margin: 12px 0px; color: rgb(34, 107, 76);"></p>
-            <div class="survey-result" id="pc-survey-result" aria-live="polite" data-app-block-stream-enter="">
-              <h3>Ihr ProzessCheck-Ergebnis</h3>
-              <p id="pc-survey-summary"></p>
-              <button type="button" class="copy-btn" id="pc-copy-summary">Zusammenfassung kopieren</button>
-              <p id="pc-copy-status" style="font-size:10px;margin-bottom:0" data-app-block-stream-enter=""></p>
-            </div>
-            <p class="survey-note" data-app-block-stream-enter="">Bitte keine Patientendaten oder vertraulichen Betriebsinformationen eingeben. Dies ist eine unverbindliche Orientierung, keine technische oder rechtliche Prüfung.</p>
-          </form>
-        </div>
-      </section>
-      <section class="about-section" id="pc-about" data-app-block-stream-enter="">
-        <div class="wrap about-grid">
-          <div class="about-visual">
-            <div class="about-mini"><span>💡</span> Ein Problem verstehen</div>
-            <div class="about-mini"><span>🛠️</span> Eine kleine Lösung ausprobieren</div>
-            <div class="about-mini" data-app-block-stream-enter=""><span>📈</span> Gemeinsam den Nutzen prüfen</div>
-          </div>
-          <div class="about-copy" data-app-block-stream-enter="">
-            <div class="eyebrow" data-app-block-stream-enter="">04 / Über dieses Projekt</div>
-            <h2 data-app-block-stream-enter="">Keine große Software. Erst einmal zuhören.</h2>
-            <p data-app-block-stream-enter="">Ich habe diese Seite erstellt, weil mich interessiert, wie sich wiederkehrende Verwaltungsaufgaben mit einfachen digitalen Werkzeugen vereinfachen lassen.</p>
-            <p data-app-block-stream-enter="">Die vier Beispiele sind zunächst Ideen – keine fertigen Produkte. Entscheidend ist, ob es in Ihrer Apotheke tatsächlich einen Ablauf gibt, bei dem eine kleine Verbesserung hilfreich wäre.</p>
-            <div class="about-list" data-app-block-stream-enter="">
-              <div class="about-point"><span>✓</span> Bestehende Apothekensoftware respektieren</div>
-              <div class="about-point"><span>✓</span> Mit einem überschaubaren Problem beginnen</div>
-              <div class="about-point" data-app-block-stream-enter=""><span>✓</span> Zunächst mit Beispieldaten arbeiten</div>
-              <div class="about-point" data-app-block-stream-enter=""><span>✓</span> Gemeinsam prüfen, ob sich der Aufwand lohnt</div>
-            </div>
+        <div class="floating" data-i18n="floating" data-app-block-stream-enter="">✓ Aufgabe erledigt</div>
+      </div>
+    </section>
+    <div class="trust" data-app-block-stream-enter=""><div class="trust-inner wrap">
+      <span data-i18n="trust1">Bestehende Software ergänzen</span>
+      <span data-i18n="trust2" data-app-block-stream-enter="">Kleine Lösungen statt großer Umstellung</span>
+      <span data-i18n="trust3" data-app-block-stream-enter="">Keine Patientendaten für den Einstieg</span>
+    </div></div>
+    <section class="section wrap" id="apo3-cases" data-app-block-stream-enter="">
+      <div class="eyebrow" data-i18n="casesEyebrow">01 / Mögliche Verbesserungen</div>
+      <h2 data-i18n="casesTitle" data-app-block-stream-enter="">Vier Ideen für weniger Routinearbeit.</h2>
+      <p class="section-lead" data-i18n="casesLead" data-app-block-stream-enter="">Vielleicht kennen Sie diese Abläufe. Vielleicht löst Ihre bestehende Software sie bereits. Die Beispiele zeigen, wie eine kleine digitale Unterstützung aussehen könnte.</p>
+      <div class="cases" data-app-block-stream-enter="">
+        <button type="button" class="case selected" data-case="0" aria-pressed="true"><span class="case-number" data-i18n="caseNum1">ANWENDUNGSFALL 01</span><span class="case-icon">📄</span><b data-i18n="case1title" data-app-block-stream-enter="">Rechnungen &amp; Lieferscheine</b><small data-i18n="case1desc" data-app-block-stream-enter="">Unterschiede zwischen Dokumenten schneller erkennen.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
+        <button type="button" class="case" data-case="1" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number" data-i18n="caseNum2" data-app-block-stream-enter="">ANWENDUNGSFALL 02</span><span class="case-icon" data-app-block-stream-enter="">📦</span><b data-i18n="case2title" data-app-block-stream-enter="">Retouren &amp; Gutschriften</b><small data-i18n="case2desc" data-app-block-stream-enter="">Offene Gutschriften und Fristen im Blick behalten.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
+        <button type="button" class="case" data-case="2" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number" data-i18n="caseNum3">ANWENDUNGSFALL 03</span><span class="case-icon">📋</span><b data-i18n="case3title">QM-Dokumentation</b><small data-i18n="case3desc" data-app-block-stream-enter="">Kontrollen und wiederkehrende Aufgaben organisieren.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
+        <button type="button" class="case" data-case="3" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number" data-i18n="caseNum4">ANWENDUNGSFALL 04</span><span class="case-icon" data-app-block-stream-enter="">🗂️</span><b data-i18n="case4title" data-app-block-stream-enter="">Offene Aufgaben &amp; Rückfragen</b><small data-i18n="case4desc" data-app-block-stream-enter="">Zuständigkeiten und offene Vorgänge verfolgen.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
+      </div>
+    </section>
+    <section class="demo" id="apo3-demo" data-app-block-stream-enter="">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="demoEyebrow">02 / Interaktive Prozessanimation</div>
+        <div class="demo-header">
+          <div><h2 data-i18n="demoTitle">So könnte es funktionieren.</h2><p style="font-size:12px;color:#6a7b6e;margin:8px 0 0" data-i18n="demoLead" data-app-block-stream-enter="">Ein möglicher heutiger Ablauf im Vergleich mit digitaler Unterstützung.</p></div>
+          <div class="modes" role="group" aria-label="Compare workflows" data-app-block-stream-enter="">
+            <button type="button" data-mode="before" data-i18n="beforeTab" aria-pressed="false">Heute</button>
+            <button type="button" data-mode="after" class="active" data-i18n="afterTab" aria-pressed="true">Mit Unterstützung</button>
           </div>
         </div>
-      </section>
-      <section class="contact-section wrap" id="pc-contact" data-app-block-stream-enter="">
-        <div class="contact-panel">
-          <div>
-            <div class="eyebrow">05 / Unverbindlicher Austausch</div>
-            <h2>Hätten Sie 15 Minuten für ein Gespräch?</h2>
-            <p>Mich würde interessieren, welche Verwaltungsaufgaben in Ihrer Apotheke noch Zeit kosten. Kein Verkaufsgespräch und keine Verpflichtung – zunächst nur ein kurzer Austausch.</p>
+        <div class="board" data-app-block-stream-enter="">
+          <div class="board-top">
+            <div><div class="eyebrow" id="apo3-case-number">ANWENDUNGSFALL 01</div><h3 id="apo3-case-title">Rechnungen &amp; Lieferscheine</h3><p id="apo3-case-intro" data-app-block-stream-enter="">Ein möglicher vereinfachter Belegabgleich.</p></div>
+            <span class="board-tag" id="apo3-mode-tag" data-app-block-stream-enter="">DIGITALER ABLAUF</span>
           </div>
+          <div class="flow" id="apo3-flow" aria-label="Animated workflow" data-app-block-stream-enter=""><div class="flow-node done"><span class="step-num">SCHRITT 01</span><span class="flow-icon">📥</span><b>Belege erfassen</b><small>Dokumentdaten übernehmen</small></div><div class="flow-node done"><span class="step-num">SCHRITT 02</span><span class="flow-icon">⚙️</span><b>Daten abgleichen</b><small>Positionen vergleichen</small></div><div class="flow-node done"><span class="step-num">SCHRITT 03</span><span class="flow-icon">⚠️</span><b>Differenz markieren</b><small>Auffälligkeiten anzeigen</small></div><div class="flow-node active"><span class="step-num">SCHRITT 04</span><span class="flow-icon">✅</span><b>Mensch prüft</b><small>Ergebnis kontrollieren</small></div></div>
+          <div class="status" aria-live="polite" data-app-block-stream-enter=""><span class="status-dot"></span><div><b id="apo3-status-title">Schritt 4 von 4 · Mensch prüft</b><small id="apo3-status-desc">Ergebnis kontrollieren</small></div></div>
+          <div class="board-controls" data-app-block-stream-enter="">
+            <div class="progress" id="apo3-progress"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></div>
+            <div class="control-buttons"><button type="button" id="apo3-restart" data-i18n="restart">↺ Neu</button><button type="button" id="apo3-next" data-i18n="next" data-app-block-stream-enter="">Weiter →</button><button type="button" class="play" id="apo3-play" data-app-block-stream-enter="">Ⅱ Pause</button></div>
+          </div>
+        </div>
+        <div class="comparison" data-app-block-stream-enter="">
+          <div class="compare dim" id="apo3-before-card"><div class="compare-label" data-i18n="beforeLabel" data-app-block-stream-enter="">◷ HEUTE / MÖGLICHER IST-ZUSTAND</div><b id="apo3-before-heading" data-app-block-stream-enter="">Mehrere manuelle Prüfschritte</b><p id="apo3-before-copy" data-app-block-stream-enter="">Belege sammeln, Angaben vergleichen und mögliche Differenzen einzeln nachverfolgen.</p></div>
+          <div class="compare focus" id="apo3-after-card" data-app-block-stream-enter=""><div class="compare-label" data-i18n="afterLabel">✓ MIT DIGITALER UNTERSTÜTZUNG</div><b id="apo3-after-heading" data-app-block-stream-enter="">Auffälligkeiten gezielt prüfen</b><p id="apo3-after-copy" data-app-block-stream-enter="">Ein digitaler Helfer könnte Dokumente strukturieren und Abweichungen zur menschlichen Prüfung hervorheben.</p></div>
+        </div>
+        <p class="disclaimer" data-i18n="disclaimer" data-app-block-stream-enter="">Konzeptionelle Beispiele, keine fertige Apothekensoftware. Ob und wie viel Zeit gespart werden kann, muss im konkreten Betrieb geprüft werden. Gesetzliche Dokumentationspflichten bleiben bestehen.</p>
+      </div>
+    </section>
+    <section class="survey wrap" id="apo3-survey" data-app-block-stream-enter="">
+      <div class="survey-layout">
+        <div class="survey-intro">
+          <div class="eyebrow" data-i18n="surveyEyebrow">03 / Ihr ProzessCheck</div>
+          <h2 data-i18n="surveyTitle" data-app-block-stream-enter="">Was kostet Sie wirklich Zeit?</h2>
+          <p data-i18n="surveyLead" data-app-block-stream-enter="">Jede Apotheke arbeitet anders. Mit drei kurzen Fragen lässt sich herausfinden, ob eine dieser Ideen für Ihren Betrieb relevant sein könnte.</p>
+          <div class="survey-badge" data-i18n="surveyBadge" data-app-block-stream-enter="">◷ Etwa 2 Minuten · 3 Fragen</div>
+          <p style="font-size:11px;margin-top:20px" data-i18n="surveyDataNote" data-app-block-stream-enter="">Ihre Antworten werden erst beim Absenden an Formspree übermittelt. Es werden keine Patientendaten benötigt.</p>
+        </div>
+        <form class="survey-card" id="apo3-form" action="https://formspree.io/f/xoednjod" method="POST" data-app-block-stream-enter="">
+          <fieldset class="question">
+            <legend><span class="q-num">1</span><span data-i18n="q1">Welche Aufgabe kostet aktuell am meisten Zeit?</span></legend>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="invoices" required=""><span data-i18n="pain1">Rechnungen und Lieferscheine prüfen</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="returns"><span data-i18n="pain2" data-app-block-stream-enter="">Retouren und Gutschriften verfolgen</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="qm"><span data-i18n="pain3">QM-Dokumentation und Kontrollen</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="tasks"><span data-i18n="pain4" data-app-block-stream-enter="">Offene Aufgaben und Rückfragen</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="other"><span data-i18n="pain5">Eine andere Aufgabe</span></label>
+          </fieldset>
+          <fieldset class="question" data-app-block-stream-enter="">
+            <legend><span class="q-num">2</span><span data-i18n="q2" data-app-block-stream-enter="">Wie wird diese Aufgabe heute erledigt?</span></legend>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="digital" value="manual" required=""><span data-i18n="digital1">Überwiegend manuell / Papier / Excel</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="digital" value="partial" data-app-block-stream-enter=""><span data-i18n="digital2" data-app-block-stream-enter="">Teilweise digital</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="digital" value="covered"><span data-i18n="digital3">Bereits durch bestehende Software abgedeckt</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="digital" value="unsure" data-app-block-stream-enter=""><span data-i18n="digital4" data-app-block-stream-enter="">Das müsste ich prüfen</span></label>
+          </fieldset>
+          <fieldset class="question" data-app-block-stream-enter="">
+            <legend><span class="q-num">3</span><span data-i18n="q3">Wäre eine kleine Verbesserung interessant?</span></legend>
+            <label class="choice"><input type="radio" name="interest" value="conversation" required="" data-app-block-stream-enter=""><span data-i18n="interest1" data-app-block-stream-enter="">Ja, ein kurzes Gespräch wäre interessant</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="demo"><span data-i18n="interest2">Vielleicht, ich würde erst eine Demo sehen</span></label>
+            <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="feedback"><span data-i18n="interest3">Ich möchte zunächst nur Feedback geben</span></label>
+          </fieldset>
           <div data-app-block-stream-enter="">
-            <button type="button" id="pc-copy-message">Gesprächsanfrage kopieren ↗</button>
-            <div class="contact-status" id="pc-message-status" aria-live="polite"></div>
-            <p style="font-size:10px;margin-top:12px" data-app-block-stream-enter="">Sie können die Nachricht anschließend über Ihren bevorzugten Kommunikationsweg verschicken.</p>
+            <label class="field-label" for="apo3-email" data-i18n="emailLabel">E-Mail für Rückfragen (optional)</label>
+            <input class="email-input" type="email" id="apo3-email" name="email" autocomplete="email" placeholder="name@beispiel.de" data-app-block-stream-enter="">
+            <p class="survey-note" data-i18n="emailNote" data-app-block-stream-enter="">Nur angeben, wenn Sie eine Rückmeldung wünschen.</p>
+          </div>
+          <label class="privacy-check" data-app-block-stream-enter=""><input type="checkbox" name="privacy_acknowledged" value="yes" required=""><span data-i18n="privacyConsent">Ich habe verstanden, dass meine Antworten und gegebenenfalls meine E-Mail-Adresse über Formspree an den Betreiber dieser Website übermittelt werden.</span></label>
+          <button type="submit" class="primary" id="apo3-submit" style="width:100%" data-i18n="submit" data-app-block-stream-enter="">Feedback absenden ↗</button>
+          <div class="form-status" id="apo3-form-status" role="status" aria-live="polite" data-app-block-stream-enter=""></div>
+          <p class="survey-note" data-i18n="privacyNote" data-app-block-stream-enter="">Bitte keine Patientendaten oder vertraulichen Betriebsinformationen eingeben. Die Daten werden über den externen Dienst Formspree verarbeitet.</p>
+        <input type="hidden" name="language" value="de"></form>
+      </div>
+    </section>
+    <section class="about" id="apo3-about" data-app-block-stream-enter="">
+      <div class="wrap about-grid">
+        <div class="about-visual">
+          <div class="about-mini"><span>💡</span><span data-i18n="aboutStep1">Ein Problem verstehen</span></div>
+          <div class="about-mini"><span>🛠️</span><span data-i18n="aboutStep2" data-app-block-stream-enter="">Eine kleine Lösung ausprobieren</span></div>
+          <div class="about-mini" data-app-block-stream-enter=""><span>📈</span><span data-i18n="aboutStep3">Gemeinsam den Nutzen prüfen</span></div>
+        </div>
+        <div class="about-copy" data-app-block-stream-enter="">
+          <div class="eyebrow" data-i18n="aboutEyebrow" data-app-block-stream-enter="">04 / Über dieses Projekt</div>
+          <h2 data-i18n="aboutTitle" data-app-block-stream-enter="">Keine große Software. Erst einmal zuhören.</h2>
+          <p data-i18n="aboutP1" data-app-block-stream-enter="">Ich habe diese Seite erstellt, weil mich interessiert, wie sich wiederkehrende Verwaltungsaufgaben mit einfachen digitalen Werkzeugen vereinfachen lassen.</p>
+          <p data-i18n="aboutP2" data-app-block-stream-enter="">Die vier Beispiele sind zunächst Ideen – keine fertigen Produkte. Entscheidend ist, ob es in Ihrer Apotheke tatsächlich einen Ablauf gibt, bei dem eine kleine Verbesserung hilfreich wäre.</p>
+          <div class="about-points" data-app-block-stream-enter="">
+            <div class="about-point" data-app-block-stream-enter=""><span>✓</span><span data-i18n="aboutPoint1">Bestehende Apothekensoftware respektieren</span></div>
+            <div class="about-point" data-app-block-stream-enter=""><span>✓</span><span data-i18n="aboutPoint2">Mit einem überschaubaren Problem beginnen</span></div>
+            <div class="about-point" data-app-block-stream-enter=""><span>✓</span><span data-i18n="aboutPoint3" data-app-block-stream-enter="">Zunächst mit Beispieldaten arbeiten</span></div>
+            <div class="about-point" data-app-block-stream-enter=""><span>✓</span><span data-i18n="aboutPoint4">Gemeinsam prüfen, ob sich der Aufwand lohnt</span></div>
           </div>
         </div>
-      </section>
-    </main>
-    <footer class="wrap" data-app-block-stream-enter=""><span><b>Apotheken ProzessCheck</b> · Unabhängiges Demo-Projekt</span><span>Konzept 2026 · Keine echten Patientendaten · Keine automatische Umfrageübermittlung</span></footer>
-  </div>
+      </div>
+    </section>
+    <section class="contact wrap" id="apo3-contact" data-app-block-stream-enter="">
+      <div class="contact-panel">
+        <div>
+          <div class="eyebrow" data-i18n="contactEyebrow">05 / Unverbindlicher Austausch</div>
+          <h2 data-i18n="contactTitle">Hätten Sie 15 Minuten für ein Gespräch?</h2>
+          <p data-i18n="contactLead" data-app-block-stream-enter="">Mich würde interessieren, welche Verwaltungsaufgaben in Ihrer Apotheke noch Zeit kosten. Kein Verkaufsgespräch und keine Verpflichtung – zunächst nur ein kurzer Austausch.</p>
+        </div>
+        <div data-app-block-stream-enter="">
+          <button type="button" id="apo3-copy-message" data-i18n="contactButton" data-app-block-stream-enter="">Gesprächsanfrage kopieren ↗</button>
+          <div class="contact-status" id="apo3-copy-status" role="status" data-app-block-stream-enter=""></div>
+          <p style="font-size:10px;margin-top:12px" data-i18n="contactNote" data-app-block-stream-enter="">Sie können die Nachricht anschließend über Ihren bevorzugten Kommunikationsweg verschicken.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap" data-app-block-stream-enter="">
+    <span data-i18n="footer1" data-app-block-stream-enter="">Apotheken ProzessCheck · Unabhängiges Demo-Projekt</span>
+    <span data-i18n="footer2" data-app-block-stream-enter="">Konzept 2026 · Keine echten Patientendaten</span>
+  </footer>
+</div>
 <script>
-    (() => {
-      const root=document.getElementById("pc-site");
-      if(!root || root.dataset.ready==="yes")return;
-      root.dataset.ready="yes";
-      const cases=[
-        {title:"Rechnungen & Lieferscheine",intro:"Ein möglicher vereinfachter Belegabgleich.",bh:"Mehrere manuelle Prüfschritte",bc:"Belege sammeln, Angaben vergleichen und mögliche Differenzen einzeln nachverfolgen.",ah:"Auffälligkeiten gezielt prüfen",ac:"Ein digitaler Helfer könnte Dokumente strukturieren und Abweichungen zur menschlichen Prüfung hervorheben.",before:[["📄","Belege sammeln","Dokumente liegen vor"],["🔍","Werte vergleichen","Positionen prüfen"],["✏️","Differenz notieren","Abweichung festhalten"],["☎️","Rückfrage klären","Vorgang nachverfolgen"]],after:[["📥","Belege erfassen","Dokumentdaten übernehmen"],["⚙️","Daten abgleichen","Positionen vergleichen"],["⚠️","Differenz markieren","Auffälligkeiten anzeigen"],["✅","Mensch prüft","Ergebnis kontrollieren"]]},
-        {title:"Retouren & Gutschriften",intro:"Rücksendungen und ausstehende Gutschriften im Blick behalten.",bh:"Rücksendung ist nicht gleich Abschluss",bc:"Rücksendung, Frist und spätere Gutschrift müssen gegebenenfalls separat nachverfolgt werden.",ah:"Offene Gutschriften sichtbar machen",ac:"Ein kleiner Tracker könnte offene Fälle anzeigen, Fristen überwachen und an Nachfragen erinnern.",before:[["📦","Retoure senden","Ware zurückgeben"],["📝","Vorgang notieren","Angaben festhalten"],["🔎","Gutschrift suchen","Eingang überprüfen"],["☎️","Nachfragen","Offene Fälle klären"]],after:[["📦","Retoure erfassen","Vorgang anlegen"],["📅","Frist merken","Termin hinterlegen"],["🔔","Hinweis erhalten","Offene Gutschrift melden"],["✅","Eingang bestätigen","Fall abschließen"]]},
-        {title:"QM-Dokumentation",intro:"Wiederkehrende Kontrollen organisieren, ohne QM-Pflichten zu ersetzen.",bh:"Wiederkehrende Aufgaben im Blick",bc:"Checklisten, Termine und Nachweise müssen gemäß den geltenden Vorgaben organisiert und dokumentiert werden.",ah:"Erinnern, prüfen, nachvollziehen",ac:"Ein ergänzendes Tool könnte an Aufgaben erinnern und offene Punkte zeigen, sofern das vorhandene QM-System dies nicht bereits leistet.",before:[["📚","Checkliste suchen","Vorgabe aufrufen"],["🌡️","Kontrolle machen","Prüfung durchführen"],["✍️","Eintrag erstellen","Nachweis festhalten"],["🗄️","Dokument ablegen","Unterlagen verwalten"]],after:[["📅","Aufgabe anzeigen","Fälligkeit erkennen"],["🌡️","Kontrolle machen","Prüfung durchführen"],["📝","Ergebnis erfassen","Nachweis dokumentieren"],["📊","Status prüfen","Offene Punkte sehen"]]},
-        {title:"Offene Aufgaben & Rückfragen",intro:"Administrative Aufgaben zwischen Mitarbeitenden koordinieren.",bh:"Viele kleine offene Vorgänge",bc:"Notizen, mündliche Übergaben und Rückfragen können unübersichtlich werden, wenn kein gemeinsamer Überblick besteht.",ah:"Eine gemeinsame Aufgabenübersicht",ac:"Eine einfache Liste könnte Zuständigkeiten, Erinnerungen und den Bearbeitungsstand zeigen – ohne Patientendaten.",before:[["📝","Notiz machen","Aufgabe festhalten"],["🗣️","Weitergeben","Kollegen informieren"],["⏳","Antwort abwarten","Rückmeldung offen"],["❓","Status erfragen","Erledigung prüfen"]],after:[["➕","Aufgabe anlegen","Eintrag erstellen"],["👤","Person zuweisen","Zuständigkeit klären"],["🔔","Erinnern","Frist im Blick"],["✅","Abschließen","Status aktualisieren"]]}
-      ];
-      const q=s=>root.querySelector(s),qa=s=>Array.from(root.querySelectorAll(s));
-      let selected=0,mode="after",step=0,playing=!window.matchMedia("(prefers-reduced-motion: reduce)").matches,timer=null,summary="";
-      function render(){
-        const c=cases[selected],steps=c[mode];
-        q("#pc-case-number").textContent="ANWENDUNGSFALL 0"+(selected+1);
-        q("#pc-case-title").textContent=c.title;
-        q("#pc-case-intro").textContent=c.intro;
-        q("#pc-before-heading").textContent=c.bh;
-        q("#pc-before-copy").textContent=c.bc;
-        q("#pc-after-heading").textContent=c.ah;
-        q("#pc-after-copy").textContent=c.ac;
-        q("#pc-mode-tag").textContent=mode==="after"?"DIGITALER ABLAUF":"HEUTIGER ABLAUF";
-        q("#pc-mode-tag").classList.toggle("manual",mode==="before");
-        q("#pc-before-card").classList.toggle("dim",mode!=="before");
-        q("#pc-before-card").classList.toggle("focus",mode==="before");
-        q("#pc-after-card").classList.toggle("dim",mode!=="after");
-        q("#pc-after-card").classList.toggle("focus",mode==="after");
-        qa("[data-case]").forEach((b,i)=>{b.classList.toggle("selected",i===selected);b.setAttribute("aria-pressed",String(i===selected))});
-        qa("[data-mode]").forEach(b=>{const on=b.dataset.mode===mode;b.classList.toggle("active",on);b.setAttribute("aria-pressed",String(on))});
-        q("#pc-flow").innerHTML=steps.map((s,i)=>'<div class="flow-node '+(i===step?"active":i<step?"done":"")+'"><span class="step-num">SCHRITT 0'+(i+1)+'</span><span class="flow-icon">'+s[0]+'</span><b>'+s[1]+'</b><small>'+s[2]+'</small></div>').join("");
-        q("#pc-status-title").textContent="Schritt "+(step+1)+" von 4 · "+steps[step][1];
-        q("#pc-status-desc").textContent=steps[step][2];
-        qa("#pc-progress span").forEach((e,i)=>e.classList.toggle("filled",i<=step));
-        q("#pc-play").textContent=playing?"Ⅱ Pause":"▶ Abspielen";
-      }
-      function schedule(){
-        if(timer)clearInterval(timer);
-        timer=null;
-        if(playing){timer=setInterval(()=>{step=(step+1)%4;render()},2400)}
-      }
-      qa("[data-case]").forEach(b=>b.addEventListener("click",()=>{selected=Number(b.dataset.case);step=0;render();schedule();q("#pc-demo").scrollIntoView({behavior:"smooth",block:"start"})}));
-      qa("[data-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.mode;step=0;render();schedule()}));
-      q("#pc-play").addEventListener("click",()=>{playing=!playing;render();schedule()});
-      q("#pc-next").addEventListener("click",()=>{step=(step+1)%4;render();schedule()});
-      q("#pc-restart").addEventListener("click",()=>{step=0;playing=true;render();schedule()});
-      q("#pc-form").addEventListener("submit",e=>{
-        e.preventDefault();
-        const form=new FormData(e.currentTarget);
-        const pain=form.get("pain"),digital=form.get("digital"),interest=form.get("interest");
-        if(!pain||!digital||!interest)return;
-        summary="Wichtigste Aufgabe: "+pain+"\nHeutiger Ablauf: "+digital+"\nInteresse: "+interest;
-        q("#pc-survey-summary").textContent=summary;
-        q("#pc-survey-result").classList.add("visible");
-        q("#pc-copy-status").textContent="";
-        q("#pc-survey-result").scrollIntoView({behavior:"smooth",block:"nearest"});
-      });
-      async function copyText(value){
-        if(navigator.clipboard && window.isSecureContext){try{await navigator.clipboard.writeText(value);return true}catch(e){}}
-        const el=document.createElement("textarea");el.value=value;el.style.position="fixed";el.style.opacity="0";document.body.appendChild(el);el.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}el.remove();return ok;
-      }
-      q("#pc-copy-summary").addEventListener("click",async()=>{const ok=await copyText(summary);q("#pc-copy-status").textContent=ok?"Zusammenfassung kopiert. Sie können sie jetzt teilen.":"Bitte markieren und kopieren Sie die Zusammenfassung manuell."});
-      q("#pc-copy-message").addEventListener("click",async()=>{
-        const msg="Hallo, ich habe mir die Beispiele zum Apotheken ProzessCheck angesehen und würde mich gerne 15 Minuten darüber austauschen, welche Verwaltungsaufgaben sich möglicherweise vereinfachen lassen.";
-        const ok=await copyText(msg);
-        q("#pc-message-status").textContent=ok?"Nachricht kopiert – bereit zum Einfügen.":"Bitte kopieren Sie die Gesprächsanfrage manuell.";
-      });
-      render();schedule();
-    })();
-  </script>
-
-<script id="pc-formspree-integration">
-(function(){
-  const form=document.getElementById("pc-form");
-  if(!form)return;
-  form.addEventListener("submit",async function(event){
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    const button=form.querySelector('button[type="submit"]');
-    const status=document.getElementById("pc-formspree-status");
-    const result=document.getElementById("pc-survey-result");
-    if(result)result.classList.remove("visible");
-    const data=new FormData(form);
-    const summary="Wichtigste Aufgabe: "+data.get("pain")+"\nHeutiger Ablauf: "+data.get("digital")+"\nInteresse: "+data.get("interest");
-    data.append("source","Apotheken ProzessCheck GitHub Pages");
-    button.disabled=true;
-    button.textContent="Wird gesendet ...";
-    status.style.color="#226b4c";
-    status.textContent="Ihre Antworten werden übermittelt ...";
-    try{
-      const response=await fetch("https://formspree.io/f/xoednjod",{
-        method:"POST",
-        body:data,
-        headers:{"Accept":"application/json"}
-      });
-      if(!response.ok){
-        const body=await response.json().catch(()=>null);
-        const details=body&&Array.isArray(body.errors)?body.errors.map(e=>e.message).join(", "):"";
-        throw new Error(details||"HTTP "+response.status);
-      }
-      status.style.color="#226b4c";
-      status.textContent="Vielen Dank! Ihr Feedback wurde erfolgreich übermittelt.";
-      if(result){
-        result.classList.add("visible");
-        const title=result.querySelector("h3");
-        if(title)title.textContent="Vielen Dank für Ihr Feedback!";
-        const summaryEl=document.getElementById("pc-survey-summary");
-        if(summaryEl)summaryEl.textContent=summary;
-        const copy=document.getElementById("pc-copy-summary");
-        if(copy)copy.style.display="none";
-      }
-      form.reset();
-    }catch(error){
-      status.style.color="#a33d32";
-      status.textContent="Das Feedback konnte nicht gesendet werden. Bitte versuchen Sie es erneut. ("+error.message+")";
-    }finally{
-      button.disabled=false;
-      button.textContent="Feedback absenden ↗";
-    }
-  },true);
+(()=>{
+const root=document.getElementById("apo-v3-site");
+if(!root||root.dataset.initialized==="yes")return;
+root.dataset.initialized="yes";
+const T={
+de:{
+navCases:"Beispiele",navSurvey:"ProzessCheck",navAbout:"Über das Projekt",navContact:"Gespräch starten ↗",
+eyebrow:"✳ Digitale Ideen für Apotheken",heroStart:"Welche Aufgabe kostet Ihre Apotheke",heroEnd:"unnötig Zeit?",heroLead:"Rechnungen, Retouren, Dokumentation und Rückfragen: Entdecken Sie vier mögliche Verbesserungen für den Apothekenalltag – und finden Sie heraus, wo digitale Unterstützung wirklich sinnvoll wäre.",heroSurvey:"Zum 2-Minuten-ProzessCheck ↗",heroExamples:"Vier Beispiele ansehen ↓",heroNote:"Unverbindlich · Keine Softwareinstallation · Keine Patientendaten",
+dashTitle:"✳ Tagesübersicht",dashSample:"Beispieldaten",dash1:"Lieferschein prüfen",dash1sub:"Abgleich abgeschlossen",dash2:"Gutschrift verfolgen",dash2sub:"Rückmeldung ausstehend",dash3:"QM-Aufgabe",dash3sub:"Heute zu erledigen",dashFooter:"Alle Vorgänge im Blick",floating:"✓ Aufgabe erledigt",
+trust1:"Bestehende Software ergänzen",trust2:"Kleine Lösungen statt großer Umstellung",trust3:"Keine Patientendaten für den Einstieg",
+casesEyebrow:"01 / Mögliche Verbesserungen",casesTitle:"Vier Ideen für weniger Routinearbeit.",casesLead:"Vielleicht kennen Sie diese Abläufe. Vielleicht löst Ihre bestehende Software sie bereits. Die Beispiele zeigen, wie eine kleine digitale Unterstützung aussehen könnte.",
+caseNum1:"ANWENDUNGSFALL 01",caseNum2:"ANWENDUNGSFALL 02",caseNum3:"ANWENDUNGSFALL 03",caseNum4:"ANWENDUNGSFALL 04",
+case1title:"Rechnungen & Lieferscheine",case1desc:"Unterschiede zwischen Dokumenten schneller erkennen.",
+case2title:"Retouren & Gutschriften",case2desc:"Offene Gutschriften und Fristen im Blick behalten.",
+case3title:"QM-Dokumentation",case3desc:"Kontrollen und wiederkehrende Aufgaben organisieren.",
+case4title:"Offene Aufgaben & Rückfragen",case4desc:"Zuständigkeiten und offene Vorgänge verfolgen.",
+demoEyebrow:"02 / Interaktive Prozessanimation",demoTitle:"So könnte es funktionieren.",demoLead:"Ein möglicher heutiger Ablauf im Vergleich mit digitaler Unterstützung.",
+beforeTab:"Heute",afterTab:"Mit Unterstützung",beforeLabel:"◷ HEUTE / MÖGLICHER IST-ZUSTAND",afterLabel:"✓ MIT DIGITALER UNTERSTÜTZUNG",restart:"↺ Neu",next:"Weiter →",pause:"Ⅱ Pause",play:"▶ Abspielen",casePrefix:"ANWENDUNGSFALL",stepPrefix:"SCHRITT",stepStatus:"Schritt",of:"von",digitalTag:"DIGITALER ABLAUF",manualTag:"HEUTIGER ABLAUF",
+disclaimer:"Konzeptionelle Beispiele, keine fertige Apothekensoftware. Ob und wie viel Zeit gespart werden kann, muss im konkreten Betrieb geprüft werden. Gesetzliche Dokumentationspflichten bleiben bestehen.",
+surveyEyebrow:"03 / Ihr ProzessCheck",surveyTitle:"Was kostet Sie wirklich Zeit?",surveyLead:"Jede Apotheke arbeitet anders. Mit drei kurzen Fragen lässt sich herausfinden, ob eine dieser Ideen für Ihren Betrieb relevant sein könnte.",surveyBadge:"◷ Etwa 2 Minuten · 3 Fragen",surveyDataNote:"Ihre Antworten werden erst beim Absenden an Formspree übermittelt. Es werden keine Patientendaten benötigt.",
+q1:"Welche Aufgabe kostet aktuell am meisten Zeit?",q2:"Wie wird diese Aufgabe heute erledigt?",q3:"Wäre eine kleine Verbesserung interessant?",
+pain1:"Rechnungen und Lieferscheine prüfen",pain2:"Retouren und Gutschriften verfolgen",pain3:"QM-Dokumentation und Kontrollen",pain4:"Offene Aufgaben und Rückfragen",pain5:"Eine andere Aufgabe",
+digital1:"Überwiegend manuell / Papier / Excel",digital2:"Teilweise digital",digital3:"Bereits durch bestehende Software abgedeckt",digital4:"Das müsste ich prüfen",
+interest1:"Ja, ein kurzes Gespräch wäre interessant",interest2:"Vielleicht, ich würde erst eine Demo sehen",interest3:"Ich möchte zunächst nur Feedback geben",
+emailLabel:"E-Mail für Rückfragen (optional)",emailNote:"Nur angeben, wenn Sie eine Rückmeldung wünschen.",emailPlaceholder:"name@beispiel.de",
+privacyConsent:"Ich habe verstanden, dass meine Antworten und gegebenenfalls meine E-Mail-Adresse über Formspree an den Betreiber dieser Website übermittelt werden.",
+submit:"Feedback absenden ↗",sending:"Feedback wird gesendet …",success:"Vielen Dank! Ihr Feedback wurde erfolgreich übermittelt.",error:"Das Feedback konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",privacyNote:"Bitte keine Patientendaten oder vertraulichen Betriebsinformationen eingeben. Die Daten werden über den externen Dienst Formspree verarbeitet.",
+aboutStep1:"Ein Problem verstehen",aboutStep2:"Eine kleine Lösung ausprobieren",aboutStep3:"Gemeinsam den Nutzen prüfen",aboutEyebrow:"04 / Über dieses Projekt",aboutTitle:"Keine große Software. Erst einmal zuhören.",aboutP1:"Ich habe diese Seite erstellt, weil mich interessiert, wie sich wiederkehrende Verwaltungsaufgaben mit einfachen digitalen Werkzeugen vereinfachen lassen.",aboutP2:"Die vier Beispiele sind zunächst Ideen – keine fertigen Produkte. Entscheidend ist, ob es in Ihrer Apotheke tatsächlich einen Ablauf gibt, bei dem eine kleine Verbesserung hilfreich wäre.",aboutPoint1:"Bestehende Apothekensoftware respektieren",aboutPoint2:"Mit einem überschaubaren Problem beginnen",aboutPoint3:"Zunächst mit Beispieldaten arbeiten",aboutPoint4:"Gemeinsam prüfen, ob sich der Aufwand lohnt",
+contactEyebrow:"05 / Unverbindlicher Austausch",contactTitle:"Hätten Sie 15 Minuten für ein Gespräch?",contactLead:"Mich würde interessieren, welche Verwaltungsaufgaben in Ihrer Apotheke noch Zeit kosten. Kein Verkaufsgespräch und keine Verpflichtung – zunächst nur ein kurzer Austausch.",contactButton:"Gesprächsanfrage kopieren ↗",contactNote:"Sie können die Nachricht anschließend über Ihren bevorzugten Kommunikationsweg verschicken.",contactCopied:"Nachricht kopiert – bereit zum Einfügen.",contactCopyError:"Bitte kopieren Sie die Nachricht manuell.",contactMessage:"Hallo, ich habe mir die Beispiele zum Apotheken ProzessCheck angesehen und würde mich gerne 15 Minuten darüber austauschen, welche Verwaltungsaufgaben sich möglicherweise vereinfachen lassen.",
+footer1:"Apotheken ProzessCheck · Unabhängiges Demo-Projekt",footer2:"Konzept 2026 · Keine echten Patientendaten"
+},
+en:{
+navCases:"Examples",navSurvey:"Process Check",navAbout:"About the project",navContact:"Let's talk ↗",
+eyebrow:"✳ Digital ideas for pharmacies",heroStart:"Which task is costing your pharmacy",heroEnd:"valuable time?",heroLead:"Invoices, returns, documentation and follow-ups: Explore four potential improvements to everyday pharmacy operations and discover where digital support could make a difference.",heroSurvey:"Take the 2-minute Process Check ↗",heroExamples:"Explore four examples ↓",heroNote:"No obligation · No software installation · No patient data",
+dashTitle:"✳ Daily overview",dashSample:"Sample data",dash1:"Check delivery note",dash1sub:"Comparison completed",dash2:"Track supplier credit",dash2sub:"Response pending",dash3:"Quality management task",dash3sub:"Due today",dashFooter:"All tasks at a glance",floating:"✓ Task completed",
+trust1:"Complement existing software",trust2:"Small improvements, not major changes",trust3:"No patient data needed to start",
+casesEyebrow:"01 / Potential improvements",casesTitle:"Four ideas for less routine work.",casesLead:"You might recognize these workflows. Your existing software might already handle them. These examples illustrate what a small digital improvement could look like.",
+caseNum1:"USE CASE 01",caseNum2:"USE CASE 02",caseNum3:"USE CASE 03",caseNum4:"USE CASE 04",
+case1title:"Invoices & Delivery Notes",case1desc:"Spot discrepancies between documents more quickly.",
+case2title:"Returns & Credit Notes",case2desc:"Keep track of outstanding credits and deadlines.",
+case3title:"Quality Documentation",case3desc:"Organize inspections and recurring checks.",
+case4title:"Pending Tasks & Follow-ups",case4desc:"Track responsibilities and unfinished work.",
+demoEyebrow:"02 / Interactive workflow animation",demoTitle:"Here's how it could work.",demoLead:"Compare a possible current process with a digitally supported alternative.",
+beforeTab:"Current process",afterTab:"With digital support",beforeLabel:"◷ CURRENT / POSSIBLE WORKFLOW",afterLabel:"✓ WITH DIGITAL SUPPORT",restart:"↺ Restart",next:"Next →",pause:"Ⅱ Pause",play:"▶ Play",casePrefix:"USE CASE",stepPrefix:"STEP",stepStatus:"Step",of:"of",digitalTag:"DIGITAL WORKFLOW",manualTag:"CURRENT WORKFLOW",
+disclaimer:"Illustrative concepts, not finished pharmacy software. Actual workflows and time savings must be verified with the pharmacy. Legal documentation obligations remain unchanged.",
+surveyEyebrow:"03 / Your Process Check",surveyTitle:"What's really taking your time?",surveyLead:"Every pharmacy works differently. Three quick questions can help identify whether any of these ideas might be useful for your business.",surveyBadge:"◷ About 2 minutes · 3 questions",surveyDataNote:"Your answers are sent to Formspree only when you submit the form. No patient data is required.",
+q1:"Which task currently takes the most time?",q2:"How is this task handled today?",q3:"Would a small improvement be interesting?",
+pain1:"Checking invoices and delivery notes",pain2:"Tracking returns and credit notes",pain3:"Quality management documentation",pain4:"Pending tasks and follow-ups",pain5:"Something else",
+digital1:"Mostly manual / paper / Excel",digital2:"Partly digital",digital3:"Already covered by existing software",digital4:"I'd need to check",
+interest1:"Yes, I'd be interested in a short conversation",interest2:"Maybe, I'd prefer to see a demo first",interest3:"I'd just like to give feedback",
+emailLabel:"Contact email (optional)",emailNote:"Only provide this if you'd like a reply.",emailPlaceholder:"name@example.com",
+privacyConsent:"I understand that my answers and optional email address will be sent through Formspree to the operator of this website.",
+submit:"Send feedback ↗",sending:"Sending feedback …",success:"Thank you! Your feedback has been submitted successfully.",error:"Your feedback could not be sent. Please try again.",privacyNote:"Please do not submit patient information or confidential business data. Responses are processed through the external service Formspree.",
+aboutStep1:"Understand a problem",aboutStep2:"Try a small solution",aboutStep3:"Evaluate the benefit together",aboutEyebrow:"04 / About this project",aboutTitle:"No big software rollout. First, let's listen.",aboutP1:"I created this website because I'm interested in simplifying recurring administrative work with practical digital tools.",aboutP2:"The four examples are ideas, not finished products. What matters is whether there's a real workflow in your pharmacy where a small improvement would be helpful.",aboutPoint1:"Respect existing pharmacy software",aboutPoint2:"Start with one manageable problem",aboutPoint3:"Use fictional sample data first",aboutPoint4:"Evaluate whether the effort is worthwhile together",
+contactEyebrow:"05 / An informal conversation",contactTitle:"Would you have 15 minutes for a chat?",contactLead:"I'd love to understand which administrative tasks still take up time in your pharmacy. No sales pitch and no commitment – just a short conversation to begin with.",contactButton:"Copy conversation request ↗",contactNote:"You can send the message using your preferred communication method.",contactCopied:"Message copied and ready to paste.",contactCopyError:"Please copy the message manually.",contactMessage:"Hello, I looked at the Apotheken ProzessCheck examples and would be interested in a 15-minute conversation about administrative tasks that might be easier to manage with simple digital tools.",
+footer1:"Apotheken ProzessCheck · Independent demo project",footer2:"Concept 2026 · No real patient data"
+}
+};
+const C=[
+{de:{intro:"Ein möglicher vereinfachter Belegabgleich.",bh:"Mehrere manuelle Prüfschritte",bc:"Belege sammeln, Angaben vergleichen und mögliche Differenzen einzeln nachverfolgen.",ah:"Auffälligkeiten gezielt prüfen",ac:"Ein digitaler Helfer könnte Dokumente strukturieren und Abweichungen zur menschlichen Prüfung hervorheben.",before:[["📄","Belege sammeln","Dokumente liegen vor"],["🔍","Werte vergleichen","Positionen prüfen"],["✏️","Differenz notieren","Abweichung festhalten"],["☎️","Rückfrage klären","Vorgang nachverfolgen"]],after:[["📥","Belege erfassen","Dokumentdaten übernehmen"],["⚙️","Daten abgleichen","Positionen vergleichen"],["⚠️","Differenz markieren","Auffälligkeiten anzeigen"],["✅","Mensch prüft","Ergebnis kontrollieren"]]},en:{intro:"A possible streamlined document comparison.",bh:"Several manual verification steps",bc:"Collect documents, compare figures and follow up on discrepancies individually.",ah:"Review only what needs attention",ac:"A digital assistant could structure documents and highlight discrepancies for human review.",before:[["📄","Collect documents","Gather the paperwork"],["🔍","Compare figures","Check line items"],["✏️","Note differences","Record discrepancies"],["☎️","Follow up","Resolve open questions"]],after:[["📥","Capture documents","Extract document data"],["⚙️","Compare records","Match line items"],["⚠️","Flag differences","Highlight discrepancies"],["✅","Human review","Confirm the result"]]}},
+{de:{intro:"Rücksendungen und ausstehende Gutschriften im Blick behalten.",bh:"Rücksendung ist nicht gleich Abschluss",bc:"Rücksendung, Frist und spätere Gutschrift müssen gegebenenfalls separat nachverfolgt werden.",ah:"Offene Gutschriften sichtbar machen",ac:"Ein kleiner Tracker könnte offene Fälle anzeigen, Fristen überwachen und an Nachfragen erinnern.",before:[["📦","Retoure senden","Ware zurückgeben"],["📝","Vorgang notieren","Angaben festhalten"],["🔎","Gutschrift suchen","Eingang überprüfen"],["☎️","Nachfragen","Offene Fälle klären"]],after:[["📦","Retoure erfassen","Vorgang anlegen"],["📅","Frist merken","Termin hinterlegen"],["🔔","Hinweis erhalten","Offene Gutschrift melden"],["✅","Eingang bestätigen","Fall abschließen"]]},en:{intro:"Keep track of returned products and outstanding supplier credits.",bh:"Returning an item isn't the end",bc:"Returns, deadlines and subsequent credit notes may need separate follow-up.",ah:"Make outstanding credits visible",ac:"A simple tracker could show open cases, monitor deadlines and remind staff to follow up.",before:[["📦","Return product","Send goods back"],["📝","Record details","Note the return"],["🔎","Find credit note","Check for payment"],["☎️","Follow up","Resolve open cases"]],after:[["📦","Log return","Create a record"],["📅","Set deadline","Track due date"],["🔔","Get reminder","Flag missing credit"],["✅","Confirm receipt","Close the case"]]}},
+{de:{intro:"Wiederkehrende Kontrollen organisieren, ohne QM-Pflichten zu ersetzen.",bh:"Wiederkehrende Aufgaben im Blick",bc:"Checklisten, Termine und Nachweise müssen gemäß den geltenden Vorgaben organisiert und dokumentiert werden.",ah:"Erinnern, prüfen, nachvollziehen",ac:"Ein ergänzendes Tool könnte an Aufgaben erinnern und offene Punkte zeigen, sofern das vorhandene QM-System dies nicht bereits leistet.",before:[["📚","Checkliste suchen","Vorgabe aufrufen"],["🌡️","Kontrolle machen","Prüfung durchführen"],["✍️","Eintrag erstellen","Nachweis festhalten"],["🗄️","Dokument ablegen","Unterlagen verwalten"]],after:[["📅","Aufgabe anzeigen","Fälligkeit erkennen"],["🌡️","Kontrolle machen","Prüfung durchführen"],["📝","Ergebnis erfassen","Nachweis dokumentieren"],["📊","Status prüfen","Offene Punkte sehen"]]},en:{intro:"Organize recurring checks without replacing existing quality-management obligations.",bh:"Keeping recurring checks organized",bc:"Checklists, schedules and records must be maintained according to applicable requirements.",ah:"Remind, check and document",ac:"A complementary tool could show due tasks and outstanding items if the existing quality system doesn't already do so.",before:[["📚","Find checklist","Open the procedure"],["🌡️","Perform check","Carry out inspection"],["✍️","Record result","Document evidence"],["🗄️","File record","Organize documents"]],after:[["📅","Show due task","Identify deadline"],["🌡️","Perform check","Carry out inspection"],["📝","Record result","Document evidence"],["📊","Review status","See open tasks"]]}},
+{de:{intro:"Administrative Aufgaben zwischen Mitarbeitenden koordinieren.",bh:"Viele kleine offene Vorgänge",bc:"Notizen, mündliche Übergaben und Rückfragen können unübersichtlich werden, wenn kein gemeinsamer Überblick besteht.",ah:"Eine gemeinsame Aufgabenübersicht",ac:"Eine einfache Liste könnte Zuständigkeiten, Erinnerungen und den Bearbeitungsstand zeigen – ohne Patientendaten.",before:[["📝","Notiz machen","Aufgabe festhalten"],["🗣️","Weitergeben","Kollegen informieren"],["⏳","Antwort abwarten","Rückmeldung offen"],["❓","Status erfragen","Erledigung prüfen"]],after:[["➕","Aufgabe anlegen","Eintrag erstellen"],["👤","Person zuweisen","Zuständigkeit klären"],["🔔","Erinnern","Frist im Blick"],["✅","Abschließen","Status aktualisieren"]]},en:{intro:"Coordinate administrative tasks and follow-ups across staff.",bh:"Many small unfinished tasks",bc:"Notes, verbal handovers and follow-ups can become difficult to track without a shared overview.",ah:"A shared task overview",ac:"A simple board could show ownership, reminders and progress without storing patient data.",before:[["📝","Write a note","Record the task"],["🗣️","Hand it over","Inform colleagues"],["⏳","Wait for reply","Follow-up pending"],["❓","Check status","Ask if it's done"]],after:[["➕","Create task","Add an entry"],["👤","Assign owner","Clarify responsibility"],["🔔","Get reminder","Track deadline"],["✅","Complete task","Update status"]]}}
+];
+let lang="de",selected=0,mode="after",step=0,playing=!window.matchMedia("(prefers-reduced-motion: reduce)").matches,timer=null,formState="idle",copyState="";
+const q=s=>root.querySelector(s),qa=s=>Array.from(root.querySelectorAll(s));
+const mapping={pain:{invoices:"pain1",returns:"pain2",qm:"pain3",tasks:"pain4",other:"pain5"},digital:{manual:"digital1",partial:"digital2",covered:"digital3",unsure:"digital4"},interest:{conversation:"interest1",demo:"interest2",feedback:"interest3"}};
+function renderStatic(){
+  qa("[data-i18n]").forEach(el=>{const v=T[lang][el.dataset.i18n];if(v!==undefined)el.textContent=v});
+  qa("[data-lang]").forEach(b=>{const on=b.dataset.lang===lang;b.classList.toggle("active",on);b.setAttribute("aria-pressed",String(on))});
+  q("#apo3-email").placeholder=T[lang].emailPlaceholder;
+  q("#apo3-submit").textContent=formState==="sending"?T[lang].sending:T[lang].submit;
+  if(formState==="success"||formState==="error")q("#apo3-form-status").textContent=T[lang][formState];
+  q("#apo3-copy-status").textContent=copyState?T[lang][copyState]:"";
+  q("#apo3-form").querySelector('input[name="language"]')?.setAttribute("value",lang);
+}
+function renderFlow(){
+  const t=T[lang],c=C[selected][lang],steps=c[mode];
+  q("#apo3-case-number").textContent=t.casePrefix+" 0"+(selected+1);
+  q("#apo3-case-title").textContent=t["case"+(selected+1)+"title"];
+  q("#apo3-case-intro").textContent=c.intro;
+  q("#apo3-before-heading").textContent=c.bh;
+  q("#apo3-before-copy").textContent=c.bc;
+  q("#apo3-after-heading").textContent=c.ah;
+  q("#apo3-after-copy").textContent=c.ac;
+  q("#apo3-mode-tag").textContent=mode==="after"?t.digitalTag:t.manualTag;
+  q("#apo3-mode-tag").classList.toggle("manual",mode==="before");
+  q("#apo3-before-card").classList.toggle("dim",mode!=="before");
+  q("#apo3-before-card").classList.toggle("focus",mode==="before");
+  q("#apo3-after-card").classList.toggle("dim",mode!=="after");
+  q("#apo3-after-card").classList.toggle("focus",mode==="after");
+  qa("[data-case]").forEach((b,i)=>{b.classList.toggle("selected",i===selected);b.setAttribute("aria-pressed",String(i===selected))});
+  qa("[data-mode]").forEach(b=>{const on=b.dataset.mode===mode;b.classList.toggle("active",on);b.setAttribute("aria-pressed",String(on))});
+  const flow=q("#apo3-flow");flow.replaceChildren();
+  steps.forEach((s,i)=>{
+    const node=document.createElement("div");
+    node.className="flow-node "+(i===step?"active":i<step?"done":"");
+    const num=document.createElement("span");num.className="step-num";num.textContent=t.stepPrefix+" 0"+(i+1);
+    const icon=document.createElement("span");icon.className="flow-icon";icon.textContent=s[0];
+    const heading=document.createElement("b");heading.textContent=s[1];
+    const desc=document.createElement("small");desc.textContent=s[2];
+    node.append(num,icon,heading,desc);flow.appendChild(node);
+  });
+  q("#apo3-status-title").textContent=t.stepStatus+" "+(step+1)+" "+t.of+" 4 · "+steps[step][1];
+  q("#apo3-status-desc").textContent=steps[step][2];
+  qa("#apo3-progress span").forEach((e,i)=>e.classList.toggle("filled",i<=step));
+  q("#apo3-play").textContent=playing?t.pause:t.play;
+}
+function render(){renderStatic();renderFlow()}
+function schedule(){if(timer)clearInterval(timer);timer=null;if(playing)timer=setInterval(()=>{step=(step+1)%4;renderFlow()},2400)}
+qa("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.lang;render()}));
+qa("[data-case]").forEach(b=>b.addEventListener("click",()=>{selected=Number(b.dataset.case);step=0;renderFlow();schedule();q("#apo3-demo").scrollIntoView({behavior:"smooth",block:"start"})}));
+qa("[data-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.mode;step=0;renderFlow();schedule()}));
+q("#apo3-play").addEventListener("click",()=>{playing=!playing;renderFlow();schedule()});
+q("#apo3-next").addEventListener("click",()=>{step=(step+1)%4;renderFlow();schedule()});
+q("#apo3-restart").addEventListener("click",()=>{step=0;playing=true;renderFlow();schedule()});
+const form=q("#apo3-form");
+const languageField=document.createElement("input");languageField.type="hidden";languageField.name="language";languageField.value="de";form.appendChild(languageField);
+form.addEventListener("submit",async event=>{
+  event.preventDefault();
+  if(formState==="sending")return;
+  if(!form.reportValidity())return;
+  const submitLang=lang;
+  const data=new FormData(form);
+  for(const field of ["pain","digital","interest"]){const code=data.get(field);const key=mapping[field][code];if(key)data.set(field,T[submitLang][key])}
+  data.set("language",submitLang==="de"?"German":"English");
+  data.set("source","Apotheken ProzessCheck");
+  formState="sending";q("#apo3-form-status").textContent="";q("#apo3-submit").disabled=true;renderStatic();
+  try{
+    const response=await fetch("https://formspree.io/f/xoednjod",{method:"POST",body:data,headers:{"Accept":"application/json"}});
+    if(!response.ok)throw new Error("Submission failed");
+    formState="success";form.reset();
+    q("#apo3-form-status").style.color="#226b4c";
+  }catch(err){
+    formState="error";q("#apo3-form-status").style.color="#a33d32";
+  }finally{
+    q("#apo3-submit").disabled=false;renderStatic();
+  }
+});
+async function copyText(value){
+  if(navigator.clipboard&&window.isSecureContext){try{await navigator.clipboard.writeText(value);return true}catch(err){}}
+  const el=document.createElement("textarea");el.value=value;el.style.position="fixed";el.style.opacity="0";document.body.appendChild(el);el.select();
+  let ok=false;try{ok=document.execCommand("copy")}catch(err){}el.remove();return ok;
+}
+q("#apo3-copy-message").addEventListener("click",async()=>{const ok=await copyText(T[lang].contactMessage);copyState=ok?"contactCopied":"contactCopyError";renderStatic()});
+render();schedule();
 })();
-          </script></body></html>
+</script>
+</body>
+</html>
