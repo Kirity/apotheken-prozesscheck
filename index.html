@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="de">
-<head>
+<html lang="de"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
@@ -233,7 +232,7 @@
             <div class="survey-badge" data-app-block-stream-enter="">◷ Etwa 2 Minuten · 3 Fragen</div>
             <p style="font-size:11px;margin-top:20px" data-app-block-stream-enter="">Ihre Antworten bleiben in Ihrem Browser. Es gibt keine automatische Übermittlung, Speicherung auf einem Server oder Anmeldung.</p>
           </div>
-          <form class="survey-card" id="pc-form" data-app-block-stream-enter="">
+          <form class="survey-card" id="pc-form" data-app-block-stream-enter="" action="https://formspree.io/f/xoednjod" method="POST">
             <fieldset class="question">
               <legend><span class="q-num">1</span>Welche Aufgabe kostet aktuell am meisten Zeit?</legend>
               <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Rechnungen und Lieferscheine" required=""> Rechnungen und Lieferscheine prüfen</label>
@@ -255,7 +254,17 @@
               <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="Zunächst eine Demo"> Vielleicht, ich würde erst eine Demo sehen</label>
               <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="Nur Feedback"> Ich möchte zunächst nur Feedback geben</label>
             </fieldset>
-            <button type="submit" class="primary" style="width:100%" data-app-block-stream-enter="">Meine Antworten zusammenfassen ↗</button>
+            <div id="pc-formspree-fields">
+            <div style="border-top:1px solid #edf0eb;padding-top:19px;margin-top:8px;margin-bottom:18px">
+              <label for="pc-feedback-email" style="display:block;font-size:13px;font-weight:800;margin-bottom:8px">E-Mail für Rückfragen (optional)</label>
+              <input id="pc-feedback-email" type="email" name="email" autocomplete="email" placeholder="name@beispiel.de" style="display:block;width:100%;padding:12px 13px;border:1px solid #d6e1d8;border-radius:9px;background:#fff;color:#24372b;font-size:13px">
+              <p style="font-size:10px;color:#718075;line-height:1.6;margin:7px 0 0">Nur wenn Sie eine Rückmeldung wünschen. Keine Patientendaten eingeben.</p>
+            </div>
+            <label style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:#52665a;line-height:1.65;margin-bottom:19px">
+              <input type="checkbox" name="privacy_acknowledged" value="yes" required="" style="margin-top:4px;accent-color:#226b4c">
+              <span>Ich habe verstanden, dass meine Antworten und gegebenenfalls meine E-Mail-Adresse über Formspree an den Betreiber dieser Website übermittelt werden. Ich gebe keine Patienten- oder vertraulichen Betriebsdaten an.</span>
+            </label>
+          </div><button type="submit" class="primary" style="width:100%" data-app-block-stream-enter="">Feedback absenden ↗</button><p id="pc-formspree-status" role="status" aria-live="polite" style="font-size: 12px; line-height: 1.6; margin: 12px 0px; color: rgb(34, 107, 76);"></p>
             <div class="survey-result" id="pc-survey-result" aria-live="polite" data-app-block-stream-enter="">
               <h3>Ihr ProzessCheck-Ergebnis</h3>
               <p id="pc-survey-summary"></p>
@@ -374,5 +383,55 @@
       render();schedule();
     })();
   </script>
-</body>
-</html>
+
+<script id="pc-formspree-integration">
+(function(){
+  const form=document.getElementById("pc-form");
+  if(!form)return;
+  form.addEventListener("submit",async function(event){
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const button=form.querySelector('button[type="submit"]');
+    const status=document.getElementById("pc-formspree-status");
+    const result=document.getElementById("pc-survey-result");
+    if(result)result.classList.remove("visible");
+    const data=new FormData(form);
+    const summary="Wichtigste Aufgabe: "+data.get("pain")+"\nHeutiger Ablauf: "+data.get("digital")+"\nInteresse: "+data.get("interest");
+    data.append("source","Apotheken ProzessCheck GitHub Pages");
+    button.disabled=true;
+    button.textContent="Wird gesendet ...";
+    status.style.color="#226b4c";
+    status.textContent="Ihre Antworten werden übermittelt ...";
+    try{
+      const response=await fetch("https://formspree.io/f/xoednjod",{
+        method:"POST",
+        body:data,
+        headers:{"Accept":"application/json"}
+      });
+      if(!response.ok){
+        const body=await response.json().catch(()=>null);
+        const details=body&&Array.isArray(body.errors)?body.errors.map(e=>e.message).join(", "):"";
+        throw new Error(details||"HTTP "+response.status);
+      }
+      status.style.color="#226b4c";
+      status.textContent="Vielen Dank! Ihr Feedback wurde erfolgreich übermittelt.";
+      if(result){
+        result.classList.add("visible");
+        const title=result.querySelector("h3");
+        if(title)title.textContent="Vielen Dank für Ihr Feedback!";
+        const summaryEl=document.getElementById("pc-survey-summary");
+        if(summaryEl)summaryEl.textContent=summary;
+        const copy=document.getElementById("pc-copy-summary");
+        if(copy)copy.style.display="none";
+      }
+      form.reset();
+    }catch(error){
+      status.style.color="#a33d32";
+      status.textContent="Das Feedback konnte nicht gesendet werden. Bitte versuchen Sie es erneut. ("+error.message+")";
+    }finally{
+      button.disabled=false;
+      button.textContent="Feedback absenden ↗";
+    }
+  },true);
+})();
+          </script></body></html>
