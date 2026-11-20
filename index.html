@@ -2,268 +2,377 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Vier Ideen zur Vereinfachung administrativer Aufgaben in Apotheken.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>Apotheken Ideen – Weniger Papierkram</title>
+<meta name="description" content="Apotheken ProzessCheck: Vier digitale Ideen und ein kurzer Check für administrative Abläufe in Apotheken.">
+<title>Apotheken ProzessCheck – Weniger Papierkram</title>
 <style>
-
     html{scroll-behavior:smooth}
     body{margin:0;background:#faf9f4}
-    #apo-publish-site{--ink:#1d302b;--muted:#66776b;--green:#226b4c;--line:#e2e8df;box-sizing:border-box;color:var(--ink);background:#faf9f4;font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
-    #apo-publish-site *{box-sizing:border-box}
-    #apo-publish-site button{font:inherit;cursor:pointer}
-    #apo-publish-site a{color:inherit;text-decoration:none}
-    #apo-publish-site .wrap{max-width:1100px;margin:auto;padding-left:clamp(18px,4vw,50px);padding-right:clamp(18px,4vw,50px)}
-    #apo-publish-site .header{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
-    #apo-publish-site .logo{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;letter-spacing:-.6px}
-    #apo-publish-site .logo-mark{background:var(--green);color:white;border-radius:9px;width:31px;height:31px;display:grid;place-items:center;font-size:22px}
-    #apo-publish-site .logo em{color:var(--green);font-style:normal}
-    #apo-publish-site .nav{display:flex;align-items:center;gap:22px;font-size:12px;font-weight:650}
-    #apo-publish-site .nav-cta{background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px}
-    #apo-publish-site .eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:800;color:var(--green)}
-    #apo-publish-site .hero{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:36px;padding-top:76px;padding-bottom:76px}
-    #apo-publish-site h1{font-size:clamp(36px,5.4vw,66px);line-height:1.08;letter-spacing:-2.5px;margin:19px 0 22px;font-weight:800}
-    #apo-publish-site h1 em{font-style:normal;color:var(--green)}
-    #apo-publish-site .lead{font-size:15px;line-height:1.85;color:var(--muted);max-width:440px;margin:0 0 26px}
-    #apo-publish-site .hero-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    #apo-publish-site .primary{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--green);color:white;border:0;border-radius:9px;padding:13px 18px;font-size:12px;font-weight:750}
-    #apo-publish-site .secondary{display:inline-flex;align-items:center;justify-content:center;border:1px solid #cad7cb;border-radius:9px;padding:12px 17px;font-size:12px;font-weight:750}
-    #apo-publish-site .hero-visual{position:relative;min-height:355px;border-radius:24px;background:#e7f0e6;display:grid;place-items:center;padding:22px;overflow:hidden}
-    #apo-publish-site .hero-visual:before{content:"";position:absolute;width:320px;height:320px;border:1px solid #bdd6c2;border-radius:50%;transform:scale(1.1)}
-    #apo-publish-site .hero-visual:after{content:"";position:absolute;width:230px;height:230px;border:1px solid #bdd6c2;border-radius:50%;transform:scale(1.6)}
-    #apo-publish-site .dashboard{position:relative;z-index:1;background:white;border:1px solid #dce8de;border-radius:15px;padding:19px;width:100%;max-width:320px;box-shadow:0 20px 55px #1d453221;transform:rotate(-3deg);animation:apo-bob 5s ease-in-out infinite}
-    #apo-publish-site .dash-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e9eee8;padding-bottom:13px;font-size:12px;font-weight:750}
-    #apo-publish-site .sample{font-size:9px;background:#fff1dc;color:#976122;padding:4px 8px;border-radius:30px}
-    #apo-publish-site .dash-row{display:flex;align-items:center;gap:11px;border-bottom:1px solid #eff2ee;padding:11px 0}
-    #apo-publish-site .dash-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#edf5ed;font-size:17px}
-    #apo-publish-site .dash-text{flex:1;min-width:0}
-    #apo-publish-site .dash-text b{display:block;font-size:11px}
-    #apo-publish-site .dash-text small{display:block;font-size:9px;color:#819083}
-    #apo-publish-site .dash-state{font-size:18px;color:#3c9664}
-    #apo-publish-site .dash-footer{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--green);font-weight:700;padding-top:14px}
-    #apo-publish-site .dash-meter{width:75px;height:6px;background:#e5efe5;border-radius:8px;overflow:hidden}
-    #apo-publish-site .dash-meter:after{content:"";display:block;width:67%;height:100%;background:#4b9d6b}
-    #apo-publish-site .floating{position:absolute;z-index:2;bottom:20px;right:7px;background:white;border-radius:9px;padding:10px 13px;box-shadow:0 10px 25px #1d453222;font-size:10px;font-weight:750;animation:apo-bob 5s 1s ease-in-out infinite}
-    #apo-publish-site .floating span{color:#318f5b}
-    #apo-publish-site .trust{background:#f0f2e9;border-block:1px solid #e5e8dc}
-    #apo-publish-site .trust-inner{padding-top:18px;padding-bottom:18px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;font-weight:650;color:#66776b}
-    #apo-publish-site .trust-inner span:before{content:"✓";color:var(--green);margin-right:8px}
-    #apo-publish-site .section{padding-top:76px;padding-bottom:76px}
-    #apo-publish-site h2{font-size:clamp(27px,3.7vw,42px);letter-spacing:-1.3px;line-height:1.16;margin:12px 0 15px}
-    #apo-publish-site .section-lead{font-size:13px;color:var(--muted);line-height:1.8;max-width:560px;margin:0 0 30px}
-    #apo-publish-site .case-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-    #apo-publish-site .case-card{background:white;border:1px solid var(--line);border-radius:14px;text-align:left;min-height:205px;padding:19px 15px;display:flex;flex-direction:column;gap:11px;color:var(--ink);transition:transform .2s,box-shadow .2s,border-color .2s}
-    #apo-publish-site .case-card:hover{transform:translateY(-4px);box-shadow:0 9px 24px #234d2f13}
-    #apo-publish-site .case-card.selected{border:2px solid var(--green);padding:18px 14px}
-    #apo-publish-site .case-number{font-size:9px;letter-spacing:1px;color:#8a988b;font-weight:800}
-    #apo-publish-site .case-icon{width:43px;height:43px;display:grid;place-items:center;border-radius:11px;background:#eaf2e8;font-size:23px}
-    #apo-publish-site .case-card:nth-child(2) .case-icon{background:#fff0e0}
-    #apo-publish-site .case-card:nth-child(3) .case-icon{background:#e9effb}
-    #apo-publish-site .case-card:nth-child(4) .case-icon{background:#f4eafa}
-    #apo-publish-site .case-card b{font-size:13px;line-height:1.35}
-    #apo-publish-site .case-card small{font-size:10px;color:var(--muted);line-height:1.5}
-    #apo-publish-site .case-arrow{align-self:flex-end;margin-top:auto;color:var(--green);font-size:20px}
-    #apo-publish-site .demo{background:#f0f3ec;border-block:1px solid #e1e8dc;padding-top:68px;padding-bottom:75px}
-    #apo-publish-site .demo-top{display:flex;align-items:end;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:25px}
-    #apo-publish-site .demo-top h2{margin-bottom:0}
-    #apo-publish-site .mode-tabs{display:flex;gap:4px;background:#e2e9df;padding:4px;border-radius:10px}
-    #apo-publish-site .mode-tabs button{border:0;border-radius:7px;background:transparent;color:#657569;font-size:11px;font-weight:750;padding:10px 13px}
-    #apo-publish-site .mode-tabs button.active{background:white;color:var(--green);box-shadow:0 2px 6px #16382214}
-    #apo-publish-site .board{background:white;border:1px solid #e0e7de;border-radius:18px;box-shadow:0 14px 38px #183b2910;overflow:hidden}
-    #apo-publish-site .board-header{padding:24px 26px 19px;border-bottom:1px solid #edf0eb;display:flex;justify-content:space-between;gap:12px;align-items:start}
-    #apo-publish-site .board-header h3{font-size:21px;letter-spacing:-.5px;margin:5px 0}
-    #apo-publish-site .board-header p{font-size:12px;color:var(--muted);margin:0}
-    #apo-publish-site .board-tag{font-size:9px;font-weight:800;color:var(--green);background:#e8f3eb;padding:7px 10px;border-radius:20px;white-space:nowrap}
-    #apo-publish-site .board-tag.manual{color:#96622b;background:#fff0e0}
-    #apo-publish-site .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;position:relative;padding:35px 25px 29px;background:radial-gradient(circle at center,#f8fbf6,#fff 75%)}
-    #apo-publish-site .flow:before{content:"";position:absolute;height:2px;background:#dce7dd;left:12%;right:12%;top:79px}
-    #apo-publish-site .flow-step{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;position:relative;opacity:.45;transition:opacity .3s,transform .3s;min-width:0}
-    #apo-publish-site .flow-step.active,#apo-publish-site .flow-step.done{opacity:1}
-    #apo-publish-site .flow-step.active{transform:translateY(-5px)}
-    #apo-publish-site .step-no{font-size:9px;font-weight:800;color:#899b8c}
-    #apo-publish-site .flow-icon{display:grid;place-items:center;width:64px;height:64px;border:1px solid #dce7dc;border-radius:17px;background:#f1f5f0;font-size:26px;position:relative;z-index:1;transition:all .3s}
-    #apo-publish-site .flow-step.active .flow-icon{background:var(--green);border-color:var(--green);box-shadow:0 0 0 7px #dbeee0,0 12px 22px #286b4a27;animation:apo-pulse 2.3s ease-in-out infinite}
-    #apo-publish-site .flow-step.done .flow-icon{background:#e3f0e6;border-color:#bad8c3}
-    #apo-publish-site .flow-step b{font-size:11px;line-height:1.35}
-    #apo-publish-site .flow-step small{font-size:9px;color:#708177;line-height:1.4}
-    #apo-publish-site .status{margin:0 25px 23px;padding:13px 15px;background:#f1f6f1;border-radius:10px;display:flex;gap:10px;align-items:center;min-height:54px}
-    #apo-publish-site .status-dot{width:9px;height:9px;border-radius:50%;background:#49a16b;box-shadow:0 0 0 4px #d9eede;flex-shrink:0}
-    #apo-publish-site .status b{display:block;font-size:11px}
-    #apo-publish-site .status small{font-size:10px;color:var(--muted)}
-    #apo-publish-site .board-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #edf0e9;padding:15px 25px}
-    #apo-publish-site .progress{display:flex;gap:5px;flex:1;max-width:220px}
-    #apo-publish-site .progress span{flex:1;height:5px;background:#e6ece6;border-radius:10px}
-    #apo-publish-site .progress span.filled{background:#4b9d6b}
-    #apo-publish-site .controls{display:flex;gap:7px}
-    #apo-publish-site .controls button{border:1px solid #dce5dc;background:white;border-radius:8px;padding:9px 12px;font-size:11px;font-weight:750}
-    #apo-publish-site .controls .play{background:var(--ink);color:white;border-color:var(--ink);min-width:100px}
-    #apo-publish-site .comparison{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
-    #apo-publish-site .compare{background:white;border:1px solid #e0e6dc;border-radius:13px;padding:22px;transition:opacity .3s}
-    #apo-publish-site .compare.dim{opacity:.65}
-    #apo-publish-site .compare.focus{border-color:#83b595}
-    #apo-publish-site .compare-label{font-size:10px;letter-spacing:1px;font-weight:800;color:#926735;margin-bottom:12px}
-    #apo-publish-site .compare:last-child .compare-label{color:var(--green)}
-    #apo-publish-site .compare b{font-size:14px;display:block;margin-bottom:7px}
-    #apo-publish-site .compare p{font-size:12px;line-height:1.8;color:#526459;margin:0}
-    #apo-publish-site .disclaimer{font-size:10px;color:#77867b;line-height:1.6;margin:14px 0 0}
-    #apo-publish-site .cta-section{padding-top:75px;padding-bottom:75px}
-    #apo-publish-site .cta{background:#183f30;color:white;border-radius:20px;padding:45px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:25px}
-    #apo-publish-site .cta .eyebrow{color:#a7d7b8}
-    #apo-publish-site .cta h2{color:white}
-    #apo-publish-site .cta p{font-size:12px;line-height:1.85;color:#c6d9cc}
-    #apo-publish-site .cta button{background:#f0d9ac;border:0;border-radius:10px;padding:14px 17px;font-size:12px;font-weight:800;color:#253d2e}
-    #apo-publish-site .questions{display:none;background:white;border:1px solid var(--line);border-radius:14px;padding:24px;margin-top:15px}
-    #apo-publish-site .questions.open{display:block}
-    #apo-publish-site .questions ol{padding-left:22px;color:#526459;font-size:13px;line-height:2}
-    #apo-publish-site footer{border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding-top:25px;padding-bottom:30px;color:#7b887e;font-size:10px}
-    @keyframes apo-bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(-3deg)}}
-    @keyframes apo-pulse{0%,100%{box-shadow:0 0 0 6px #dbeee0,0 12px 22px #286b4a20}50%{box-shadow:0 0 0 10px #dbeee080,0 12px 22px #286b4a30}}
-    @media(max-width:750px){#apo-publish-site .hero{grid-template-columns:1fr;padding-top:55px;padding-bottom:50px;gap:30px}#apo-publish-site .hero-visual{min-height:300px}#apo-publish-site .nav a:not(.nav-cta){display:none}#apo-publish-site .case-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#apo-publish-site .case-card{min-height:185px}#apo-publish-site .section,#apo-publish-site .cta-section{padding-top:55px;padding-bottom:55px}#apo-publish-site .demo{padding-top:55px;padding-bottom:55px}#apo-publish-site .cta{grid-template-columns:1fr;padding:30px}}
-    @media(max-width:460px){#apo-publish-site .header{height:63px}#apo-publish-site .logo{font-size:14px}#apo-publish-site .nav-cta{padding:8px 10px;font-size:10px}#apo-publish-site h1{letter-spacing:-1.7px}#apo-publish-site .hero-visual{min-height:270px}#apo-publish-site .flow{gap:4px;padding:24px 9px}#apo-publish-site .flow:before{top:68px}#apo-publish-site .flow-icon{height:49px;width:49px;font-size:21px;border-radius:13px}#apo-publish-site .flow-step b{font-size:9px}#apo-publish-site .flow-step small{font-size:8px}#apo-publish-site .board-header{padding:19px}#apo-publish-site .board-header h3{font-size:17px}#apo-publish-site .board-tag{font-size:8px}#apo-publish-site .status{margin:0 13px 15px}#apo-publish-site .board-controls{padding:13px}#apo-publish-site .controls button{padding:8px 9px;font-size:10px}#apo-publish-site .comparison{gap:8px}#apo-publish-site .compare{padding:14px}#apo-publish-site .compare b{font-size:12px}#apo-publish-site .compare p{font-size:10px}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#apo-publish-site *,#apo-publish-site *:before,#apo-publish-site *:after{animation:none!important;transition:none!important}}
-  
-</style>
+    #pc-site{--ink:#20352c;--muted:#66776b;--green:#226b4c;--line:#e2e8df;--cream:#faf9f4;color:var(--ink);background:var(--cream);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+    #pc-site *{box-sizing:border-box}
+    #pc-site button,#pc-site input{font:inherit}
+    #pc-site button{cursor:pointer}
+    #pc-site a{color:inherit;text-decoration:none}
+    #pc-site .wrap{max-width:1100px;margin:auto;padding-left:clamp(18px,4vw,50px);padding-right:clamp(18px,4vw,50px)}
+    #pc-site .header{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
+    #pc-site .logo{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;letter-spacing:-.6px}
+    #pc-site .logo-mark{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:var(--green);color:#fff;font-size:23px}
+    #pc-site .logo em{font-style:normal;color:var(--green)}
+    #pc-site .nav{display:flex;align-items:center;gap:20px;font-size:11px;font-weight:700}
+    #pc-site .nav-cta{background:var(--ink);color:#fff;border-radius:8px;padding:10px 13px}
+    #pc-site .eyebrow{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;font-weight:800;color:var(--green)}
+    #pc-site .hero{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:32px;padding-top:76px;padding-bottom:75px}
+    #pc-site h1{font-size:clamp(35px,5.1vw,62px);line-height:1.1;letter-spacing:-2.4px;margin:18px 0 22px;font-weight:800}
+    #pc-site h1 em{font-style:normal;color:var(--green)}
+    #pc-site h2{font-size:clamp(27px,3.6vw,40px);letter-spacing:-1.3px;line-height:1.17;margin:12px 0 15px}
+    #pc-site .lead{font-size:15px;color:var(--muted);line-height:1.8;max-width:465px;margin:0 0 25px}
+    #pc-site .hero-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    #pc-site .primary{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--green);color:white;border:1px solid var(--green);border-radius:9px;padding:13px 18px;font-size:12px;font-weight:750}
+    #pc-site .secondary{display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd9ce;border-radius:9px;padding:13px 17px;font-size:12px;font-weight:750;background:transparent}
+    #pc-site .primary:hover{background:#174f37}
+    #pc-site .hero-visual{position:relative;min-height:355px;border-radius:23px;background:#e6efe5;display:grid;place-items:center;padding:23px;overflow:hidden}
+    #pc-site .hero-visual:before{content:"";position:absolute;width:340px;height:340px;border:1px solid #b9d5c0;border-radius:50%}
+    #pc-site .hero-visual:after{content:"";position:absolute;width:250px;height:250px;border:1px solid #b9d5c0;border-radius:50%;transform:scale(1.5)}
+    #pc-site .dashboard{position:relative;z-index:1;width:100%;max-width:315px;background:#fff;border:1px solid #dfebe1;border-radius:14px;padding:18px;box-shadow:0 20px 55px #244b3225;transform:rotate(-3deg);animation:pc-float 5s ease-in-out infinite}
+    #pc-site .dash-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #edf1ec;padding-bottom:13px;font-size:12px;font-weight:800}
+    #pc-site .sample{font-size:9px;color:#976224;background:#fff1dd;border-radius:20px;padding:4px 8px}
+    #pc-site .dash-row{display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f2ef;padding:11px 0}
+    #pc-site .dash-icon{width:34px;height:34px;display:grid;place-items:center;background:#edf5ed;border-radius:9px;font-size:17px}
+    #pc-site .dash-text{flex:1}
+    #pc-site .dash-text b{display:block;font-size:11px}
+    #pc-site .dash-text small{display:block;font-size:9px;color:#819087}
+    #pc-site .dash-state{font-size:17px;color:#378e5c}
+    #pc-site .floating{position:absolute;z-index:2;bottom:20px;right:8px;background:white;border-radius:10px;padding:11px 14px;box-shadow:0 10px 25px #214b3324;font-size:10px;font-weight:750;animation:pc-float 5s 1s ease-in-out infinite}
+    #pc-site .trust{background:#f0f2e9;border-block:1px solid #e5e8dc}
+    #pc-site .trust-inner{padding-top:18px;padding-bottom:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;font-weight:650;color:#657668}
+    #pc-site .trust-inner span:before{content:"✓";color:var(--green);margin-right:8px}
+    #pc-site .section{padding-top:76px;padding-bottom:76px}
+    #pc-site .section-lead{font-size:13px;line-height:1.8;color:var(--muted);max-width:570px;margin:0 0 30px}
+    #pc-site .cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    #pc-site .case{background:#fff;border:1px solid var(--line);border-radius:14px;padding:19px 15px;min-height:205px;text-align:left;display:flex;flex-direction:column;gap:11px;transition:transform .2s,border-color .2s,box-shadow .2s;color:var(--ink)}
+    #pc-site .case:hover{transform:translateY(-4px);box-shadow:0 8px 20px #244d3212}
+    #pc-site .case.selected{border:2px solid var(--green);padding:18px 14px}
+    #pc-site .case-number{font-size:9px;letter-spacing:1px;color:#8b998e;font-weight:800}
+    #pc-site .case-icon{width:43px;height:43px;border-radius:11px;background:#eaf2e8;display:grid;place-items:center;font-size:23px}
+    #pc-site .case:nth-child(2) .case-icon{background:#fff1e0}
+    #pc-site .case:nth-child(3) .case-icon{background:#e9effb}
+    #pc-site .case:nth-child(4) .case-icon{background:#f3eafa}
+    #pc-site .case b{font-size:13px;line-height:1.35}
+    #pc-site .case small{font-size:10px;color:var(--muted);line-height:1.5}
+    #pc-site .case-arrow{align-self:flex-end;margin-top:auto;color:var(--green);font-size:20px}
+    #pc-site .demo{background:#f0f3ec;border-block:1px solid #e1e8dc;padding-top:67px;padding-bottom:75px}
+    #pc-site .demo-header{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:25px}
+    #pc-site .demo-header h2{margin-bottom:0}
+    #pc-site .modes{display:flex;gap:4px;background:#e2e9df;border-radius:10px;padding:4px}
+    #pc-site .modes button{border:0;border-radius:7px;background:transparent;padding:10px 14px;font-size:11px;font-weight:750;color:#657568}
+    #pc-site .modes button.active{background:#fff;color:var(--green);box-shadow:0 2px 7px #183e2714}
+    #pc-site .board{background:#fff;border:1px solid #dfe6dd;border-radius:18px;box-shadow:0 14px 40px #203c2910;overflow:hidden}
+    #pc-site .board-top{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:24px 26px 19px;border-bottom:1px solid #edf0e9}
+    #pc-site .board-top h3{font-size:21px;letter-spacing:-.6px;margin:5px 0}
+    #pc-site .board-top p{font-size:12px;color:var(--muted);margin:0}
+    #pc-site .board-tag{font-size:9px;font-weight:800;color:var(--green);background:#e8f3eb;border-radius:20px;padding:7px 11px;white-space:nowrap}
+    #pc-site .board-tag.manual{background:#fff0e0;color:#98632b}
+    #pc-site .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:35px 24px 30px;position:relative;background:radial-gradient(circle at center,#f8fbf7,#fff 75%)}
+    #pc-site .flow:before{content:"";position:absolute;height:2px;left:12%;right:12%;top:79px;background:#dce7dd}
+    #pc-site .flow-node{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;opacity:.45;transition:opacity .3s,transform .3s;position:relative;min-width:0}
+    #pc-site .flow-node.active,#pc-site .flow-node.done{opacity:1}
+    #pc-site .flow-node.active{transform:translateY(-5px)}
+    #pc-site .step-num{font-size:9px;font-weight:800;color:#8a9b8e}
+    #pc-site .flow-icon{height:64px;width:64px;border-radius:17px;border:1px solid #dce7dc;background:#f1f5f0;display:grid;place-items:center;font-size:26px;position:relative;z-index:1;transition:all .3s}
+    #pc-site .flow-node.active .flow-icon{background:var(--green);border-color:var(--green);box-shadow:0 0 0 7px #dbeee0,0 12px 22px #286b4a27;animation:pc-pulse 2.2s ease-in-out infinite}
+    #pc-site .flow-node.done .flow-icon{background:#e2f0e5;border-color:#bad8c3}
+    #pc-site .flow-node b{font-size:11px;line-height:1.35}
+    #pc-site .flow-node small{font-size:9px;color:#708077;line-height:1.4}
+    #pc-site .status{display:flex;align-items:center;gap:11px;margin:0 25px 23px;padding:13px 15px;background:#f1f6f1;border-radius:10px;min-height:52px}
+    #pc-site .status-dot{height:9px;width:9px;border-radius:50%;background:#49a16b;box-shadow:0 0 0 4px #d9eede;flex-shrink:0}
+    #pc-site .status b{display:block;font-size:11px}
+    #pc-site .status small{display:block;font-size:10px;color:var(--muted)}
+    #pc-site .board-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #edf0e9;padding:15px 25px}
+    #pc-site .progress{display:flex;gap:5px;flex:1;max-width:220px}
+    #pc-site .progress span{height:5px;flex:1;border-radius:6px;background:#e6ece6}
+    #pc-site .progress span.filled{background:#4b9d6b}
+    #pc-site .control-buttons{display:flex;gap:7px}
+    #pc-site .control-buttons button{border:1px solid #dce5dc;background:#fff;border-radius:8px;padding:9px 12px;font-size:11px;font-weight:750}
+    #pc-site .control-buttons .play{background:var(--ink);color:#fff;border-color:var(--ink);min-width:100px}
+    #pc-site .comparison{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+    #pc-site .compare{background:#fff;border:1px solid #e0e6dc;border-radius:13px;padding:22px;transition:opacity .3s}
+    #pc-site .compare.dim{opacity:.65}
+    #pc-site .compare.focus{border-color:#86b795}
+    #pc-site .compare-label{font-size:10px;font-weight:800;letter-spacing:1px;color:#926735;margin-bottom:12px}
+    #pc-site .compare:last-child .compare-label{color:var(--green)}
+    #pc-site .compare b{font-size:14px;display:block;margin-bottom:7px}
+    #pc-site .compare p{font-size:12px;color:#526459;line-height:1.8;margin:0}
+    #pc-site .disclaimer{font-size:10px;color:#77867b;line-height:1.6;margin:14px 0 0}
+    #pc-site .survey{padding-top:77px;padding-bottom:78px}
+    #pc-site .survey-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:38px;align-items:start}
+    #pc-site .survey-intro{position:sticky;top:20px}
+    #pc-site .survey-intro p{font-size:13px;color:var(--muted);line-height:1.85}
+    #pc-site .survey-badge{display:inline-flex;gap:8px;align-items:center;padding:8px 11px;border-radius:8px;background:#eaf2e8;color:var(--green);font-size:11px;font-weight:750}
+    #pc-site .survey-card{background:white;border:1px solid var(--line);border-radius:17px;padding:27px;box-shadow:0 8px 30px #244d3210}
+    #pc-site .question{border:0;margin:0 0 25px;padding:0 0 23px;border-bottom:1px solid #edf0eb;min-width:0;width:100%}
+    #pc-site .question:last-of-type{border-bottom:0;padding-bottom:0}
+    #pc-site .question legend{font-size:13px;font-weight:800;margin-bottom:13px;padding:0;line-height:1.5}
+    #pc-site .q-num{display:inline-grid;place-items:center;background:#eaf2e8;color:var(--green);border-radius:7px;width:24px;height:24px;font-size:11px;margin-right:8px}
+    #pc-site .choice{display:flex;align-items:center;gap:10px;border:1px solid #e2e9e1;border-radius:9px;padding:11px 12px;margin-bottom:8px;font-size:12px;color:#3e5145;cursor:pointer;transition:border-color .2s,background .2s}
+    #pc-site .choice:hover{border-color:#a2c4ac}
+    #pc-site .choice:has(input:checked){border-color:var(--green);background:#f0f7f0}
+    #pc-site .choice input{accent-color:var(--green);flex-shrink:0}
+    #pc-site .survey-note{font-size:10px;color:#77867b;line-height:1.7;margin-top:14px}
+    #pc-site .survey-result{display:none;margin-top:17px;border:1px solid #b8d6c0;border-radius:11px;padding:17px;background:#f1f7f1}
+    #pc-site .survey-result.visible{display:block}
+    #pc-site .survey-result h3{font-size:15px;margin:0 0 8px}
+    #pc-site .survey-result p{font-size:12px;color:#4c6253;line-height:1.7;white-space:pre-line}
+    #pc-site .copy-btn{background:#fff;color:var(--green);border:1px solid #b6d0be;border-radius:8px;padding:10px 12px;font-size:11px;font-weight:750}
+    #pc-site .about-section{background:#f0f3ec;border-block:1px solid #e1e8dc;padding-top:70px;padding-bottom:70px}
+    #pc-site .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:42px;align-items:center}
+    #pc-site .about-visual{background:#e0ede1;border-radius:20px;min-height:250px;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:13px}
+    #pc-site .about-mini{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #d7e5d9;border-radius:11px;padding:14px;font-size:12px;font-weight:700}
+    #pc-site .about-mini span{font-size:23px}
+    #pc-site .about-copy p{font-size:13px;color:#5c7061;line-height:1.9}
+    #pc-site .about-list{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+    #pc-site .about-point{display:flex;align-items:start;gap:9px;font-size:12px;font-weight:650}
+    #pc-site .about-point span{color:var(--green);font-weight:900}
+    #pc-site .contact-section{padding-top:75px;padding-bottom:75px}
+    #pc-site .contact-panel{background:#183f30;color:white;border-radius:20px;padding:45px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:28px}
+    #pc-site .contact-panel .eyebrow{color:#acd9bc}
+    #pc-site .contact-panel h2{color:#fff}
+    #pc-site .contact-panel p{color:#c4d9cb;font-size:12px;line-height:1.85}
+    #pc-site .contact-panel button{border:0;border-radius:10px;background:#f0d9ac;color:#273b2d;font-size:12px;font-weight:800;padding:15px 17px}
+    #pc-site .contact-status{color:#c6e7d0;font-size:11px;margin-top:9px}
+    #pc-site footer{border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding-top:24px;padding-bottom:30px;color:#7b887e;font-size:10px}
+    @keyframes pc-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(-3deg)}}
+    @keyframes pc-pulse{0%,100%{box-shadow:0 0 0 6px #dbeee0,0 12px 22px #286b4a20}50%{box-shadow:0 0 0 10px #dbeee080,0 12px 22px #286b4a30}}
+    @media(max-width:750px){#pc-site .hero{grid-template-columns:1fr;padding-top:53px;padding-bottom:48px}#pc-site .hero-visual{min-height:295px}#pc-site .nav a:not(.nav-cta){display:none}#pc-site .cases{grid-template-columns:repeat(2,minmax(0,1fr))}#pc-site .case{min-height:180px}#pc-site .section,#pc-site .survey,#pc-site .contact-section{padding-top:55px;padding-bottom:55px}#pc-site .demo,#pc-site .about-section{padding-top:55px;padding-bottom:55px}#pc-site .survey-layout,#pc-site .about-grid{grid-template-columns:1fr;gap:23px}#pc-site .survey-intro{position:static}#pc-site .contact-panel{grid-template-columns:1fr;padding:30px}}
+    @media(max-width:460px){#pc-site .header{height:62px}#pc-site .logo{font-size:14px}#pc-site .nav-cta{font-size:10px;padding:8px 10px}#pc-site h1{letter-spacing:-1.7px}#pc-site .hero-visual{min-height:260px}#pc-site .flow{gap:3px;padding:24px 8px}#pc-site .flow:before{top:68px}#pc-site .flow-icon{height:49px;width:49px;font-size:21px;border-radius:13px}#pc-site .flow-node b{font-size:9px}#pc-site .flow-node small{font-size:8px}#pc-site .board-top{padding:18px}#pc-site .board-top h3{font-size:17px}#pc-site .board-tag{font-size:8px}#pc-site .status{margin:0 13px 15px}#pc-site .board-controls{padding:13px}#pc-site .control-buttons button{font-size:10px;padding:8px 9px}#pc-site .comparison{gap:8px}#pc-site .compare{padding:14px}#pc-site .compare b{font-size:12px}#pc-site .compare p{font-size:10px}#pc-site .survey-card{padding:18px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#pc-site *,#pc-site *:before,#pc-site *:after{animation:none!important;transition:none!important}}
+  </style>
 </head>
 <body>
-<div id="apo-publish-site" data-app-block-stream-enter="">
+<div id="pc-site" data-app-block-stream-enter="">
     <header class="header wrap">
-      <a class="logo" href="#apo-home"><span class="logo-mark">+</span><span>apotheken<em>.ideen</em></span></a>
-      <nav class="nav" aria-label="Hauptnavigation">
-        <a href="#apo-cases">Anwendungsfälle</a><a href="#apo-demo">Interaktive Demo</a><a href="#apo-contact" class="nav-cta">Gespräch starten ↗</a>
+      <a class="logo" href="#pc-home"><span class="logo-mark">+</span><span>Apotheken <em>ProzessCheck</em></span></a>
+      <nav class="nav" aria-label="Hauptnavigation" data-app-block-stream-enter="">
+        <a href="#pc-cases">Beispiele</a>
+        <a href="#pc-survey">ProzessCheck</a>
+        <a href="#pc-about">Über das Projekt</a>
+        <a class="nav-cta" href="#pc-contact">Gespräch starten ↗</a>
       </nav>
     </header>
-    <main>
-      <section class="hero wrap" id="apo-home">
-        <div>
-          <div class="eyebrow">✳ Digitale Ideen für den Apothekenalltag</div>
-          <h1>Weniger <em>Papierkram.</em><br>Mehr Zeit für Menschen.</h1>
-          <p class="lead">Rechnungen prüfen, Retouren nachverfolgen, Aufgaben dokumentieren: Viele kleine Abläufe kosten täglich Aufmerksamkeit. Was wäre, wenn digitale Helfer einige davon vereinfachen könnten?</p>
-          <div class="hero-actions"><a href="#apo-cases" class="primary">Vier Ideen entdecken ↗</a><a href="#apo-demo" class="secondary">Animation ansehen ↘</a></div>
-          <p style="margin-top:23px;color:#819086;font-size:10px">Unverbindliche Konzeptstudie · Keine Patientendaten</p>
-        </div>
-        <div class="hero-visual" aria-label="Illustrative digitale Tagesübersicht">
-          <div class="dashboard">
-            <div class="dash-head"><span>✳ Tagesübersicht</span><span class="sample">Beispieldaten</span></div>
-            <div class="dash-row"><span class="dash-icon">📄</span><span class="dash-text"><b>Lieferschein prüfen</b><small>Abgleich abgeschlossen</small></span><span class="dash-state">✓</span></div>
-            <div class="dash-row"><span class="dash-icon">📦</span><span class="dash-text"><b>Gutschrift verfolgen</b><small>Rückmeldung ausstehend</small></span><span style="color:#d18b3d;font-size:18px">◷</span></div>
-            <div class="dash-row"><span class="dash-icon">📋</span><span class="dash-text"><b>QM-Aufgabe</b><small>Heute zu erledigen</small></span><span style="color:#d18b3d;font-size:18px">○</span></div>
-            <div class="dash-footer"><span>Alle Vorgänge im Blick</span><span class="dash-meter"></span></div>
+    <main data-app-block-stream-enter="">
+      <section class="hero wrap" id="pc-home">
+        <div data-app-block-stream-enter="">
+          <div class="eyebrow">✳ Digitale Ideen für Apotheken</div>
+          <h1>Welche Aufgabe kostet Ihre Apotheke <em>unnötig Zeit?</em></h1>
+          <p class="lead">Rechnungen, Retouren, Dokumentation und Rückfragen: Entdecken Sie vier mögliche Verbesserungen für den Apothekenalltag – und finden Sie heraus, wo digitale Unterstützung wirklich sinnvoll wäre.</p>
+          <div class="hero-actions" data-app-block-stream-enter="">
+            <a class="primary" href="#pc-survey">Zum 2-Minuten-ProzessCheck ↗</a>
+            <a class="secondary" href="#pc-cases">Vier Beispiele ansehen ↓</a>
           </div>
-          <div class="floating"><span>✓</span> Aufgabe erledigt</div>
+          <p style="font-size:10px;color:#809084;margin-top:22px" data-app-block-stream-enter="">Unverbindlich · Keine Softwareinstallation · Keine Patientendaten</p>
+        </div>
+        <div class="hero-visual" aria-label="Illustrative Aufgabenübersicht" data-app-block-stream-enter="">
+          <div class="dashboard">
+            <div class="dash-top"><span>✳ Tagesübersicht</span><span class="sample">Beispieldaten</span></div>
+            <div class="dash-row"><span class="dash-icon">📄</span><span class="dash-text"><b data-app-block-stream-enter="">Lieferschein prüfen</b><small data-app-block-stream-enter="">Abgleich abgeschlossen</small></span><span class="dash-state" data-app-block-stream-enter="">✓</span></div>
+            <div class="dash-row" data-app-block-stream-enter=""><span class="dash-icon">📦</span><span class="dash-text"><b>Gutschrift verfolgen</b><small>Rückmeldung ausstehend</small></span><span style="color:#c98b42;font-size:18px">◷</span></div>
+            <div class="dash-row" data-app-block-stream-enter=""><span class="dash-icon">📋</span><span class="dash-text"><b>QM-Aufgabe</b><small>Heute zu erledigen</small></span><span style="color:#c98b42;font-size:18px">○</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#226b4c;font-weight:750;padding-top:13px" data-app-block-stream-enter=""><span>Alle Vorgänge im Blick</span><span style="background:#e3efe5;border-radius:8px;width:80px;height:6px;overflow:hidden"><span style="display:block;background:#4a9b6a;width:65%;height:100%"></span></span></div>
+          </div>
+          <div class="floating" data-app-block-stream-enter=""><span style="color:#3b9463">✓</span> Aufgabe erledigt</div>
         </div>
       </section>
-      <div class="trust"><div class="trust-inner wrap"><span>Kleine, überschaubare Lösungen</span><span>Bestehende Software ergänzen</span><span>Mitarbeitende behalten die Kontrolle</span></div></div>
-      <section class="section wrap" id="apo-cases">
-        <div class="eyebrow">01 / Möglichkeiten entdecken</div>
-        <h2>Vier Ideen. Weniger Routinearbeit.</h2>
-        <p class="section-lead">Keine neue Komplettsoftware, sondern vier konkrete Ansätze. Wählen Sie einen Anwendungsfall aus und erleben Sie darunter den möglichen Ablauf.</p>
-        <div class="case-grid">
-          <button type="button" class="case-card selected" data-case="0" aria-pressed="true"><span class="case-number">ANWENDUNGSFALL 01</span><span class="case-icon">📄</span><b>Rechnungen &amp; Lieferscheine</b><small>Dokumente einfacher prüfen und Unterschiede erkennen.</small><span class="case-arrow">↗</span></button>
-          <button type="button" class="case-card" data-case="1" aria-pressed="false"><span class="case-number">ANWENDUNGSFALL 02</span><span class="case-icon">📦</span><b>Retouren &amp; Gutschriften</b><small>Rücksendungen und offene Beträge im Blick behalten.</small><span class="case-arrow">↗</span></button>
-          <button type="button" class="case-card" data-case="2" aria-pressed="false"><span class="case-number">ANWENDUNGSFALL 03</span><span class="case-icon">📋</span><b>QM-Dokumentation</b><small>Wiederkehrende Kontrollen und Aufgaben organisieren.</small><span class="case-arrow">↗</span></button>
-          <button type="button" class="case-card" data-case="3" aria-pressed="false"><span class="case-number">ANWENDUNGSFALL 04</span><span class="case-icon">🗂️</span><b>Offene Aufgaben &amp; Rückfragen</b><small>Zuständigkeiten, Fristen und Rückmeldungen verfolgen.</small><span class="case-arrow">↗</span></button>
+      <div class="trust" data-app-block-stream-enter=""><div class="trust-inner wrap">
+        <span>Bestehende Software ergänzen</span>
+        <span data-app-block-stream-enter="">Kleine Lösungen statt großer Umstellung</span>
+        <span data-app-block-stream-enter="">Keine Patientendaten für den Einstieg</span>
+      </div></div>
+      <section class="section wrap" id="pc-cases" data-app-block-stream-enter="">
+        <div class="eyebrow">01 / Mögliche Verbesserungen</div>
+        <h2>Vier Ideen für weniger Routinearbeit.</h2>
+        <p class="section-lead" data-app-block-stream-enter="">Vielleicht kennen Sie diese Abläufe. Vielleicht löst Ihre bestehende Software sie bereits. Die Beispiele zeigen, wie eine kleine digitale Unterstützung aussehen könnte.</p>
+        <div class="cases" data-app-block-stream-enter="">
+          <button type="button" class="case selected" data-case="0" aria-pressed="true" data-app-block-stream-enter=""><span class="case-number">ANWENDUNGSFALL 01</span><span class="case-icon">📄</span><b>Rechnungen &amp; Lieferscheine</b><small>Unterschiede zwischen Dokumenten schneller erkennen.</small><span class="case-arrow">↗</span></button>
+          <button type="button" class="case" data-case="1" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number" data-app-block-stream-enter="">ANWENDUNGSFALL 02</span><span class="case-icon" data-app-block-stream-enter="">📦</span><b data-app-block-stream-enter="">Retouren &amp; Gutschriften</b><small data-app-block-stream-enter="">Offene Gutschriften und Fristen im Blick behalten.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
+          <button type="button" class="case" data-case="2" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number">ANWENDUNGSFALL 03</span><span class="case-icon">📋</span><b>QM-Dokumentation</b><small>Kontrollen und wiederkehrende Aufgaben organisieren.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
+          <button type="button" class="case" data-case="3" aria-pressed="false" data-app-block-stream-enter=""><span class="case-number">ANWENDUNGSFALL 04</span><span class="case-icon">🗂️</span><b data-app-block-stream-enter="">Offene Aufgaben &amp; Rückfragen</b><small data-app-block-stream-enter="">Zuständigkeiten und offene Vorgänge verfolgen.</small><span class="case-arrow" data-app-block-stream-enter="">↗</span></button>
         </div>
       </section>
-      <section class="demo" id="apo-demo">
+      <section class="demo" id="pc-demo" data-app-block-stream-enter="">
         <div class="wrap">
           <div class="eyebrow">02 / Interaktive Prozessanimation</div>
-          <div class="demo-top">
-            <div><h2>So könnte es funktionieren.</h2><p style="color:#6a7b6e;font-size:12px;margin:8px 0 0">Wählen Sie einen Ablauf und vergleichen Sie heute mit digitaler Unterstützung.</p></div>
-            <div class="mode-tabs" role="group" aria-label="Ablauf vergleichen"><button type="button" data-mode="before" aria-pressed="false">Heute</button><button type="button" data-mode="after" class="active" aria-pressed="true">Mit Unterstützung</button></div>
+          <div class="demo-header">
+            <div data-app-block-stream-enter=""><h2>So könnte es funktionieren.</h2><p style="color:#6a7b6e;font-size:12px;margin:8px 0 0">Ein möglicher heutiger Ablauf im Vergleich mit digitaler Unterstützung.</p></div>
+            <div class="modes" role="group" aria-label="Ablauf vergleichen" data-app-block-stream-enter=""><button type="button" data-mode="before" aria-pressed="false" data-app-block-stream-enter="">Heute</button><button type="button" data-mode="after" class="active" aria-pressed="true" data-app-block-stream-enter="">Mit Unterstützung</button></div>
           </div>
-          <div class="board">
-            <div class="board-header">
-              <div><div class="eyebrow" id="apo-demo-number">ANWENDUNGSFALL 01</div><h3 id="apo-demo-title">Rechnungen &amp; Lieferscheine</h3><p id="apo-demo-intro">Ein Beispiel für einen vereinfachten Belegabgleich.</p></div>
-              <span class="board-tag" id="apo-board-tag">DIGITALER ABLAUF</span>
+          <div class="board" data-app-block-stream-enter="">
+            <div class="board-top">
+              <div><div class="eyebrow" id="pc-case-number">ANWENDUNGSFALL 01</div><h3 id="pc-case-title">Rechnungen &amp; Lieferscheine</h3><p id="pc-case-intro" data-app-block-stream-enter="">Ein möglicher vereinfachter Belegabgleich.</p></div>
+              <span class="board-tag" id="pc-mode-tag" data-app-block-stream-enter="">DIGITALER ABLAUF</span>
             </div>
-            <div class="flow" id="apo-flow" aria-label="Animierter Arbeitsablauf"><div class="flow-step active"><span class="step-no">SCHRITT 01</span><span class="flow-icon">📥</span><b>Belege erfassen</b><small>Dokumentdaten übernehmen</small></div><div class="flow-step "><span class="step-no">SCHRITT 02</span><span class="flow-icon">⚙️</span><b>Daten abgleichen</b><small>Positionen gegenüberstellen</small></div><div class="flow-step "><span class="step-no">SCHRITT 03</span><span class="flow-icon">⚠️</span><b>Differenz markieren</b><small>Auffälligkeiten anzeigen</small></div><div class="flow-step "><span class="step-no">SCHRITT 04</span><span class="flow-icon">✅</span><b>Mensch prüft</b><small>Ergebnis kontrollieren</small></div></div>
-            <div class="status" aria-live="polite"><span class="status-dot"></span><div><b id="apo-status-title">Schritt 1 von 4 · Belege erfassen</b><small id="apo-status-desc">Dokumentdaten übernehmen</small></div></div>
-            <div class="board-controls">
-              <div class="progress" id="apo-progress" aria-label="Animationsfortschritt"><span class="filled"></span><span class=""></span><span class=""></span><span class=""></span></div>
-              <div class="controls"><button type="button" id="apo-restart">↺ Neu</button><button type="button" id="apo-next">Weiter →</button><button type="button" class="play" id="apo-play" aria-label="Animation pausieren">Ⅱ Pause</button></div>
+            <div class="flow" id="pc-flow" aria-label="Animierter Arbeitsablauf" data-app-block-stream-enter=""><div class="flow-node done"><span class="step-num">SCHRITT 01</span><span class="flow-icon">📥</span><b>Belege erfassen</b><small>Dokumentdaten übernehmen</small></div><div class="flow-node active"><span class="step-num">SCHRITT 02</span><span class="flow-icon">⚙️</span><b>Daten abgleichen</b><small>Positionen vergleichen</small></div><div class="flow-node "><span class="step-num">SCHRITT 03</span><span class="flow-icon">⚠️</span><b>Differenz markieren</b><small>Auffälligkeiten anzeigen</small></div><div class="flow-node "><span class="step-num">SCHRITT 04</span><span class="flow-icon">✅</span><b>Mensch prüft</b><small>Ergebnis kontrollieren</small></div></div>
+            <div class="status" aria-live="polite" data-app-block-stream-enter=""><span class="status-dot"></span><div><b id="pc-status-title">Schritt 2 von 4 · Daten abgleichen</b><small id="pc-status-desc">Positionen vergleichen</small></div></div>
+            <div class="board-controls" data-app-block-stream-enter="">
+              <div class="progress" id="pc-progress"><span class="filled"></span><span class="filled"></span><span class=""></span><span class=""></span></div>
+              <div class="control-buttons"><button type="button" id="pc-restart">↺ Neu</button><button type="button" id="pc-next">Weiter →</button><button type="button" class="play" id="pc-play" data-app-block-stream-enter="">Ⅱ Pause</button></div>
             </div>
           </div>
-          <div class="comparison">
-            <div class="compare dim" id="apo-before-card"><div class="compare-label">◷ HEUTE / MÖGLICHER IST-ZUSTAND</div><b id="apo-before-heading">Mehrere manuelle Prüfschritte</b><p id="apo-before-copy">Belege sammeln, Angaben vergleichen und mögliche Differenzen einzeln nachverfolgen.</p></div>
-            <div class="compare focus" id="apo-after-card"><div class="compare-label">✓ MIT DIGITALER UNTERSTÜTZUNG</div><b id="apo-after-heading">Auffälligkeiten gezielt prüfen</b><p id="apo-after-copy">Ein digitaler Helfer könnte Belege strukturieren und Abweichungen zur menschlichen Prüfung hervorheben.</p></div>
+          <div class="comparison" data-app-block-stream-enter="">
+            <div class="compare dim" id="pc-before-card"><div class="compare-label">◷ HEUTE / MÖGLICHER IST-ZUSTAND</div><b id="pc-before-heading" data-app-block-stream-enter="">Mehrere manuelle Prüfschritte</b><p id="pc-before-copy" data-app-block-stream-enter="">Belege sammeln, Angaben vergleichen und mögliche Differenzen einzeln nachverfolgen.</p></div>
+            <div class="compare focus" id="pc-after-card" data-app-block-stream-enter=""><div class="compare-label">✓ MIT DIGITALER UNTERSTÜTZUNG</div><b id="pc-after-heading">Auffälligkeiten gezielt prüfen</b><p id="pc-after-copy">Ein digitaler Helfer könnte Dokumente strukturieren und Abweichungen zur menschlichen Prüfung hervorheben.</p></div>
           </div>
-          <p class="disclaimer">Illustrative Abläufe, keine produktive Apothekensoftware. Der tatsächliche Ist-Zustand und der Nutzen müssen im Gespräch geprüft werden. Rechtlich vorgeschriebene Dokumentation bleibt bestehen.</p>
+          <p class="disclaimer" data-app-block-stream-enter="">Konzeptionelle Beispiele, keine fertige Apothekensoftware. Ob und wie viel Zeit gespart werden kann, muss im konkreten Betrieb geprüft werden. Gesetzliche Dokumentationspflichten bleiben bestehen.</p>
         </div>
       </section>
-      <section class="cta-section wrap" id="apo-contact">
-        <div class="cta">
-          <div><div class="eyebrow">03 / Gemeinsam herausfinden</div><h2>Welche Aufgabe kostet heute am meisten Zeit?</h2><p>Die beste Lösung beginnt nicht mit Technik, sondern mit einer Frage: Welche wiederkehrende Tätigkeit könnte im Alltag einfacher werden?</p></div>
-          <div><button type="button" id="apo-questions-button" aria-expanded="false" aria-controls="apo-questions">Drei Fragen für ein Gespräch ↗</button></div>
+      <section class="survey wrap" id="pc-survey" data-app-block-stream-enter="">
+        <div class="survey-layout">
+          <div class="survey-intro">
+            <div class="eyebrow">03 / Ihr ProzessCheck</div>
+            <h2>Was kostet Sie wirklich Zeit?</h2>
+            <p data-app-block-stream-enter="">Jede Apotheke arbeitet anders. Mit drei kurzen Fragen lässt sich herausfinden, ob eine dieser Ideen für Ihren Betrieb überhaupt relevant sein könnte.</p>
+            <div class="survey-badge" data-app-block-stream-enter="">◷ Etwa 2 Minuten · 3 Fragen</div>
+            <p style="font-size:11px;margin-top:20px" data-app-block-stream-enter="">Ihre Antworten bleiben in Ihrem Browser. Es gibt keine automatische Übermittlung, Speicherung auf einem Server oder Anmeldung.</p>
+          </div>
+          <form class="survey-card" id="pc-form" data-app-block-stream-enter="">
+            <fieldset class="question">
+              <legend><span class="q-num">1</span>Welche Aufgabe kostet aktuell am meisten Zeit?</legend>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Rechnungen und Lieferscheine" required=""> Rechnungen und Lieferscheine prüfen</label>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Retouren und Gutschriften"> Retouren und Gutschriften verfolgen</label>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="QM-Dokumentation"> QM-Dokumentation und Kontrollen</label>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Offene Aufgaben und Rückfragen"> Offene Aufgaben und Rückfragen</label>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="pain" value="Andere Aufgabe"> Eine andere Aufgabe</label>
+            </fieldset>
+            <fieldset class="question" data-app-block-stream-enter="">
+              <legend><span class="q-num">2</span>Wie wird diese Aufgabe heute erledigt?</legend>
+              <label class="choice"><input type="radio" name="digital" value="Überwiegend manuell" required=""> Überwiegend manuell / Papier / Excel</label>
+              <label class="choice"><input type="radio" name="digital" value="Teilweise digital"> Teilweise digital</label>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="digital" value="Bereits digital abgedeckt"> Bereits durch bestehende Software abgedeckt</label>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="digital" value="Noch unklar"> Das müsste ich prüfen</label>
+            </fieldset>
+            <fieldset class="question" data-app-block-stream-enter="">
+              <legend><span class="q-num">3</span>Wäre eine kleine Verbesserung interessant?</legend>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="15-Minuten-Gespräch" required=""> Ja, ein kurzes Gespräch wäre interessant</label>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="Zunächst eine Demo"> Vielleicht, ich würde erst eine Demo sehen</label>
+              <label class="choice" data-app-block-stream-enter=""><input type="radio" name="interest" value="Nur Feedback"> Ich möchte zunächst nur Feedback geben</label>
+            </fieldset>
+            <button type="submit" class="primary" style="width:100%" data-app-block-stream-enter="">Meine Antworten zusammenfassen ↗</button>
+            <div class="survey-result" id="pc-survey-result" aria-live="polite" data-app-block-stream-enter="">
+              <h3>Ihr ProzessCheck-Ergebnis</h3>
+              <p id="pc-survey-summary"></p>
+              <button type="button" class="copy-btn" id="pc-copy-summary">Zusammenfassung kopieren</button>
+              <p id="pc-copy-status" style="font-size:10px;margin-bottom:0" data-app-block-stream-enter=""></p>
+            </div>
+            <p class="survey-note" data-app-block-stream-enter="">Bitte keine Patientendaten oder vertraulichen Betriebsinformationen eingeben. Dies ist eine unverbindliche Orientierung, keine technische oder rechtliche Prüfung.</p>
+          </form>
         </div>
-        <div class="questions" id="apo-questions"><b>Ein guter Einstieg ins Gespräch</b><ol><li>Welche Dokumente oder Aufgaben bearbeiten Sie heute noch manuell?</li><li>Welche dieser Tätigkeiten führt am häufigsten zu Rückfragen oder Verzögerungen?</li><li>Was ist bereits durch Ihre bestehende Apothekensoftware abgedeckt?</li></ol></div>
+      </section>
+      <section class="about-section" id="pc-about" data-app-block-stream-enter="">
+        <div class="wrap about-grid">
+          <div class="about-visual">
+            <div class="about-mini"><span>💡</span> Ein Problem verstehen</div>
+            <div class="about-mini"><span>🛠️</span> Eine kleine Lösung ausprobieren</div>
+            <div class="about-mini" data-app-block-stream-enter=""><span>📈</span> Gemeinsam den Nutzen prüfen</div>
+          </div>
+          <div class="about-copy" data-app-block-stream-enter="">
+            <div class="eyebrow" data-app-block-stream-enter="">04 / Über dieses Projekt</div>
+            <h2 data-app-block-stream-enter="">Keine große Software. Erst einmal zuhören.</h2>
+            <p data-app-block-stream-enter="">Ich habe diese Seite erstellt, weil mich interessiert, wie sich wiederkehrende Verwaltungsaufgaben mit einfachen digitalen Werkzeugen vereinfachen lassen.</p>
+            <p data-app-block-stream-enter="">Die vier Beispiele sind zunächst Ideen – keine fertigen Produkte. Entscheidend ist, ob es in Ihrer Apotheke tatsächlich einen Ablauf gibt, bei dem eine kleine Verbesserung hilfreich wäre.</p>
+            <div class="about-list" data-app-block-stream-enter="">
+              <div class="about-point"><span>✓</span> Bestehende Apothekensoftware respektieren</div>
+              <div class="about-point"><span>✓</span> Mit einem überschaubaren Problem beginnen</div>
+              <div class="about-point" data-app-block-stream-enter=""><span>✓</span> Zunächst mit Beispieldaten arbeiten</div>
+              <div class="about-point" data-app-block-stream-enter=""><span>✓</span> Gemeinsam prüfen, ob sich der Aufwand lohnt</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="contact-section wrap" id="pc-contact" data-app-block-stream-enter="">
+        <div class="contact-panel">
+          <div>
+            <div class="eyebrow">05 / Unverbindlicher Austausch</div>
+            <h2>Hätten Sie 15 Minuten für ein Gespräch?</h2>
+            <p>Mich würde interessieren, welche Verwaltungsaufgaben in Ihrer Apotheke noch Zeit kosten. Kein Verkaufsgespräch und keine Verpflichtung – zunächst nur ein kurzer Austausch.</p>
+          </div>
+          <div data-app-block-stream-enter="">
+            <button type="button" id="pc-copy-message">Gesprächsanfrage kopieren ↗</button>
+            <div class="contact-status" id="pc-message-status" aria-live="polite"></div>
+            <p style="font-size:10px;margin-top:12px" data-app-block-stream-enter="">Sie können die Nachricht anschließend über Ihren bevorzugten Kommunikationsweg verschicken.</p>
+          </div>
+        </div>
       </section>
     </main>
-    <footer class="wrap"><span><b>apotheken.ideen</b> · Unabhängiges Demo-Projekt</span><span>Prototyp 2026 · Keine echten Betriebs- oder Patientendaten</span></footer>
+    <footer class="wrap" data-app-block-stream-enter=""><span><b>Apotheken ProzessCheck</b> · Unabhängiges Demo-Projekt</span><span>Konzept 2026 · Keine echten Patientendaten · Keine automatische Umfrageübermittlung</span></footer>
   </div>
 <script>
-
     (() => {
-      const root=document.getElementById("apo-publish-site");
-      if(!root || root.dataset.ready==="yes") return;
+      const root=document.getElementById("pc-site");
+      if(!root || root.dataset.ready==="yes")return;
       root.dataset.ready="yes";
       const cases=[
-        {title:"Rechnungen & Lieferscheine",intro:"Ein Beispiel für einen vereinfachten Belegabgleich.",beforeHeading:"Mehrere manuelle Prüfschritte",beforeCopy:"Belege sammeln, Angaben vergleichen und mögliche Differenzen einzeln nachverfolgen.",afterHeading:"Auffälligkeiten gezielt prüfen",afterCopy:"Ein digitaler Helfer könnte Belege strukturieren und Abweichungen zur menschlichen Prüfung hervorheben.",before:[["📄","Belege sammeln","Dokumente liegen vor"],["🔍","Werte vergleichen","Positionen manuell prüfen"],["✏️","Differenz notieren","Abweichung festhalten"],["☎️","Rückfrage klären","Vorgang nachverfolgen"]],after:[["📥","Belege erfassen","Dokumentdaten übernehmen"],["⚙️","Daten abgleichen","Positionen gegenüberstellen"],["⚠️","Differenz markieren","Auffälligkeiten anzeigen"],["✅","Mensch prüft","Ergebnis kontrollieren"]]},
-        {title:"Retouren & Gutschriften",intro:"Rücksendungen und ausstehende Gutschriften übersichtlich verfolgen.",beforeHeading:"Rücksendung ist nicht gleich Abschluss",beforeCopy:"Rücksendung, Frist und spätere Gutschrift müssen gegebenenfalls separat im Blick behalten werden.",afterHeading:"Offene Gutschriften sichtbar machen",afterCopy:"Ein kleiner Tracker könnte offene Fälle anzeigen, Fristen überwachen und an Nachfragen erinnern.",before:[["📦","Retoure senden","Ware zurückgeben"],["📝","Vorgang notieren","Angaben festhalten"],["🔎","Gutschrift suchen","Eingang überprüfen"],["☎️","Nachfragen","Offene Fälle klären"]],after:[["📦","Retoure erfassen","Vorgang anlegen"],["📅","Frist merken","Termin hinterlegen"],["🔔","Hinweis erhalten","Offene Gutschrift melden"],["✅","Eingang bestätigen","Fall abschließen"]]},
-        {title:"QM-Dokumentation",intro:"Wiederkehrende Kontrollen strukturieren, ohne bestehende QM-Pflichten zu ersetzen.",beforeHeading:"Wiederkehrende Aufgaben im Blick",beforeCopy:"Checklisten, Termine und Nachweise müssen gemäß den geltenden Vorgaben organisiert und dokumentiert werden.",afterHeading:"Erinnern, prüfen, nachvollziehen",afterCopy:"Ein ergänzendes Tool könnte an Aufgaben erinnern und offene Punkte zeigen, sofern das vorhandene QM-System dies nicht bereits leistet.",before:[["📚","Checkliste suchen","Vorgabe aufrufen"],["🌡️","Kontrolle machen","Prüfung durchführen"],["✍️","Eintrag erstellen","Nachweis festhalten"],["🗄️","Dokument ablegen","Unterlagen verwalten"]],after:[["📅","Aufgabe anzeigen","Fälligkeit erkennen"],["🌡️","Kontrolle machen","Prüfung durchführen"],["📝","Ergebnis erfassen","Nachweis dokumentieren"],["📊","Status prüfen","Offene Punkte sehen"]]},
-        {title:"Offene Aufgaben & Rückfragen",intro:"Kleine administrative Aufgaben zwischen Mitarbeitenden koordinieren.",beforeHeading:"Viele kleine offene Vorgänge",beforeCopy:"Notizen, mündliche Übergaben und Rückfragen können unübersichtlich werden, wenn kein gemeinsamer Überblick besteht.",afterHeading:"Eine gemeinsame Aufgabenübersicht",afterCopy:"Eine einfache Liste könnte Zuständigkeiten, Erinnerungen und den Bearbeitungsstand zeigen – ohne Patientendaten.",before:[["📝","Notiz machen","Aufgabe festhalten"],["🗣️","Weitergeben","Kollegen informieren"],["⏳","Antwort abwarten","Rückmeldung offen"],["❓","Status erfragen","Erledigung prüfen"]],after:[["➕","Aufgabe anlegen","Eintrag erstellen"],["👤","Person zuweisen","Zuständigkeit klären"],["🔔","Erinnern","Frist im Blick"],["✅","Abschließen","Status aktualisieren"]]}
+        {title:"Rechnungen & Lieferscheine",intro:"Ein möglicher vereinfachter Belegabgleich.",bh:"Mehrere manuelle Prüfschritte",bc:"Belege sammeln, Angaben vergleichen und mögliche Differenzen einzeln nachverfolgen.",ah:"Auffälligkeiten gezielt prüfen",ac:"Ein digitaler Helfer könnte Dokumente strukturieren und Abweichungen zur menschlichen Prüfung hervorheben.",before:[["📄","Belege sammeln","Dokumente liegen vor"],["🔍","Werte vergleichen","Positionen prüfen"],["✏️","Differenz notieren","Abweichung festhalten"],["☎️","Rückfrage klären","Vorgang nachverfolgen"]],after:[["📥","Belege erfassen","Dokumentdaten übernehmen"],["⚙️","Daten abgleichen","Positionen vergleichen"],["⚠️","Differenz markieren","Auffälligkeiten anzeigen"],["✅","Mensch prüft","Ergebnis kontrollieren"]]},
+        {title:"Retouren & Gutschriften",intro:"Rücksendungen und ausstehende Gutschriften im Blick behalten.",bh:"Rücksendung ist nicht gleich Abschluss",bc:"Rücksendung, Frist und spätere Gutschrift müssen gegebenenfalls separat nachverfolgt werden.",ah:"Offene Gutschriften sichtbar machen",ac:"Ein kleiner Tracker könnte offene Fälle anzeigen, Fristen überwachen und an Nachfragen erinnern.",before:[["📦","Retoure senden","Ware zurückgeben"],["📝","Vorgang notieren","Angaben festhalten"],["🔎","Gutschrift suchen","Eingang überprüfen"],["☎️","Nachfragen","Offene Fälle klären"]],after:[["📦","Retoure erfassen","Vorgang anlegen"],["📅","Frist merken","Termin hinterlegen"],["🔔","Hinweis erhalten","Offene Gutschrift melden"],["✅","Eingang bestätigen","Fall abschließen"]]},
+        {title:"QM-Dokumentation",intro:"Wiederkehrende Kontrollen organisieren, ohne QM-Pflichten zu ersetzen.",bh:"Wiederkehrende Aufgaben im Blick",bc:"Checklisten, Termine und Nachweise müssen gemäß den geltenden Vorgaben organisiert und dokumentiert werden.",ah:"Erinnern, prüfen, nachvollziehen",ac:"Ein ergänzendes Tool könnte an Aufgaben erinnern und offene Punkte zeigen, sofern das vorhandene QM-System dies nicht bereits leistet.",before:[["📚","Checkliste suchen","Vorgabe aufrufen"],["🌡️","Kontrolle machen","Prüfung durchführen"],["✍️","Eintrag erstellen","Nachweis festhalten"],["🗄️","Dokument ablegen","Unterlagen verwalten"]],after:[["📅","Aufgabe anzeigen","Fälligkeit erkennen"],["🌡️","Kontrolle machen","Prüfung durchführen"],["📝","Ergebnis erfassen","Nachweis dokumentieren"],["📊","Status prüfen","Offene Punkte sehen"]]},
+        {title:"Offene Aufgaben & Rückfragen",intro:"Administrative Aufgaben zwischen Mitarbeitenden koordinieren.",bh:"Viele kleine offene Vorgänge",bc:"Notizen, mündliche Übergaben und Rückfragen können unübersichtlich werden, wenn kein gemeinsamer Überblick besteht.",ah:"Eine gemeinsame Aufgabenübersicht",ac:"Eine einfache Liste könnte Zuständigkeiten, Erinnerungen und den Bearbeitungsstand zeigen – ohne Patientendaten.",before:[["📝","Notiz machen","Aufgabe festhalten"],["🗣️","Weitergeben","Kollegen informieren"],["⏳","Antwort abwarten","Rückmeldung offen"],["❓","Status erfragen","Erledigung prüfen"]],after:[["➕","Aufgabe anlegen","Eintrag erstellen"],["👤","Person zuweisen","Zuständigkeit klären"],["🔔","Erinnern","Frist im Blick"],["✅","Abschließen","Status aktualisieren"]]}
       ];
-      let selected=0,mode="after",step=0,playing=true,timer=null;
-      const q=s=>root.querySelector(s);
-      const qa=s=>Array.from(root.querySelectorAll(s));
+      const q=s=>root.querySelector(s),qa=s=>Array.from(root.querySelectorAll(s));
+      let selected=0,mode="after",step=0,playing=!window.matchMedia("(prefers-reduced-motion: reduce)").matches,timer=null,summary="";
       function render(){
         const c=cases[selected],steps=c[mode];
-        q("#apo-demo-number").textContent="ANWENDUNGSFALL 0"+(selected+1);
-        q("#apo-demo-title").textContent=c.title;
-        q("#apo-demo-intro").textContent=c.intro;
-        q("#apo-before-heading").textContent=c.beforeHeading;
-        q("#apo-before-copy").textContent=c.beforeCopy;
-        q("#apo-after-heading").textContent=c.afterHeading;
-        q("#apo-after-copy").textContent=c.afterCopy;
-        q("#apo-board-tag").textContent=mode==="after"?"DIGITALER ABLAUF":"HEUTIGER ABLAUF";
-        q("#apo-board-tag").classList.toggle("manual",mode==="before");
-        q("#apo-before-card").classList.toggle("dim",mode!=="before");
-        q("#apo-before-card").classList.toggle("focus",mode==="before");
-        q("#apo-after-card").classList.toggle("dim",mode!=="after");
-        q("#apo-after-card").classList.toggle("focus",mode==="after");
+        q("#pc-case-number").textContent="ANWENDUNGSFALL 0"+(selected+1);
+        q("#pc-case-title").textContent=c.title;
+        q("#pc-case-intro").textContent=c.intro;
+        q("#pc-before-heading").textContent=c.bh;
+        q("#pc-before-copy").textContent=c.bc;
+        q("#pc-after-heading").textContent=c.ah;
+        q("#pc-after-copy").textContent=c.ac;
+        q("#pc-mode-tag").textContent=mode==="after"?"DIGITALER ABLAUF":"HEUTIGER ABLAUF";
+        q("#pc-mode-tag").classList.toggle("manual",mode==="before");
+        q("#pc-before-card").classList.toggle("dim",mode!=="before");
+        q("#pc-before-card").classList.toggle("focus",mode==="before");
+        q("#pc-after-card").classList.toggle("dim",mode!=="after");
+        q("#pc-after-card").classList.toggle("focus",mode==="after");
         qa("[data-case]").forEach((b,i)=>{b.classList.toggle("selected",i===selected);b.setAttribute("aria-pressed",String(i===selected))});
-        qa("[data-mode]").forEach(b=>{const active=b.dataset.mode===mode;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active))});
-        q("#apo-flow").innerHTML=steps.map((s,i)=>'<div class="flow-step '+(i===step?"active":i<step?"done":"")+'"><span class="step-no">SCHRITT 0'+(i+1)+'</span><span class="flow-icon">'+s[0]+'</span><b>'+s[1]+'</b><small>'+s[2]+'</small></div>').join("");
-        q("#apo-status-title").textContent="Schritt "+(step+1)+" von 4 · "+steps[step][1];
-        q("#apo-status-desc").textContent=steps[step][2];
-        qa("#apo-progress span").forEach((e,i)=>e.classList.toggle("filled",i<=step));
-        q("#apo-play").textContent=playing?"Ⅱ Pause":"▶ Abspielen";
-        q("#apo-play").setAttribute("aria-label",playing?"Animation pausieren":"Animation abspielen");
+        qa("[data-mode]").forEach(b=>{const on=b.dataset.mode===mode;b.classList.toggle("active",on);b.setAttribute("aria-pressed",String(on))});
+        q("#pc-flow").innerHTML=steps.map((s,i)=>'<div class="flow-node '+(i===step?"active":i<step?"done":"")+'"><span class="step-num">SCHRITT 0'+(i+1)+'</span><span class="flow-icon">'+s[0]+'</span><b>'+s[1]+'</b><small>'+s[2]+'</small></div>').join("");
+        q("#pc-status-title").textContent="Schritt "+(step+1)+" von 4 · "+steps[step][1];
+        q("#pc-status-desc").textContent=steps[step][2];
+        qa("#pc-progress span").forEach((e,i)=>e.classList.toggle("filled",i<=step));
+        q("#pc-play").textContent=playing?"Ⅱ Pause":"▶ Abspielen";
       }
       function schedule(){
         if(timer)clearInterval(timer);
         timer=null;
-        if(playing && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-          timer=setInterval(()=>{step=(step+1)%4;render()},2400);
-        }
+        if(playing){timer=setInterval(()=>{step=(step+1)%4;render()},2400)}
       }
-      qa("[data-case]").forEach(b=>b.addEventListener("click",()=>{
-        selected=Number(b.dataset.case);step=0;playing=true;render();schedule();
-        q("#apo-demo").scrollIntoView({behavior:"smooth",block:"start"});
-      }));
-      qa("[data-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.mode;step=0;playing=true;render();schedule()}));
-      q("#apo-play").addEventListener("click",()=>{playing=!playing;render();schedule()});
-      q("#apo-next").addEventListener("click",()=>{step=(step+1)%4;render();schedule()});
-      q("#apo-restart").addEventListener("click",()=>{step=0;playing=true;render();schedule()});
-      q("#apo-questions-button").addEventListener("click",()=>{
-        const open=q("#apo-questions").classList.toggle("open");
-        q("#apo-questions-button").setAttribute("aria-expanded",String(open));
-        q("#apo-questions-button").textContent=open?"Fragen ausblenden ↑":"Drei Fragen für ein Gespräch ↗";
+      qa("[data-case]").forEach(b=>b.addEventListener("click",()=>{selected=Number(b.dataset.case);step=0;render();schedule();q("#pc-demo").scrollIntoView({behavior:"smooth",block:"start"})}));
+      qa("[data-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.mode;step=0;render();schedule()}));
+      q("#pc-play").addEventListener("click",()=>{playing=!playing;render();schedule()});
+      q("#pc-next").addEventListener("click",()=>{step=(step+1)%4;render();schedule()});
+      q("#pc-restart").addEventListener("click",()=>{step=0;playing=true;render();schedule()});
+      q("#pc-form").addEventListener("submit",e=>{
+        e.preventDefault();
+        const form=new FormData(e.currentTarget);
+        const pain=form.get("pain"),digital=form.get("digital"),interest=form.get("interest");
+        if(!pain||!digital||!interest)return;
+        summary="Wichtigste Aufgabe: "+pain+"\nHeutiger Ablauf: "+digital+"\nInteresse: "+interest;
+        q("#pc-survey-summary").textContent=summary;
+        q("#pc-survey-result").classList.add("visible");
+        q("#pc-copy-status").textContent="";
+        q("#pc-survey-result").scrollIntoView({behavior:"smooth",block:"nearest"});
       });
-      if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)playing=false;
+      async function copyText(value){
+        if(navigator.clipboard && window.isSecureContext){try{await navigator.clipboard.writeText(value);return true}catch(e){}}
+        const el=document.createElement("textarea");el.value=value;el.style.position="fixed";el.style.opacity="0";document.body.appendChild(el);el.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}el.remove();return ok;
+      }
+      q("#pc-copy-summary").addEventListener("click",async()=>{const ok=await copyText(summary);q("#pc-copy-status").textContent=ok?"Zusammenfassung kopiert. Sie können sie jetzt teilen.":"Bitte markieren und kopieren Sie die Zusammenfassung manuell."});
+      q("#pc-copy-message").addEventListener("click",async()=>{
+        const msg="Hallo, ich habe mir die Beispiele zum Apotheken ProzessCheck angesehen und würde mich gerne 15 Minuten darüber austauschen, welche Verwaltungsaufgaben sich möglicherweise vereinfachen lassen.";
+        const ok=await copyText(msg);
+        q("#pc-message-status").textContent=ok?"Nachricht kopiert – bereit zum Einfügen.":"Bitte kopieren Sie die Gesprächsanfrage manuell.";
+      });
       render();schedule();
     })();
-  
-</script>
+  </script>
 </body>
 </html>
