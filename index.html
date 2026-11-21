@@ -340,6 +340,13 @@
 #apo-v3-site .celebration-confetti i{position:absolute;top:-20px;left:var(--left);width:8px;height:13px;border-radius:2px;background:var(--color);animation:apoConfettiFall var(--duration) var(--delay) ease-in forwards}
 @keyframes apoCelebrateIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes apoConfettiFall{0%{opacity:0;transform:translate3d(0,-15px,0) rotate(0)}10%{opacity:1}85%{opacity:1}100%{opacity:0;transform:translate3d(var(--drift),105vh,0) rotate(var(--spin))}}
+@keyframes apoWelcomeFade{from{opacity:0}to{opacity:1}}
+@keyframes apoWelcomeRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){
+  #apo-v3-site .header{animation:apoWelcomeFade .45s ease-out both}
+  #apo-v3-site .hero > div:first-child{animation:apoWelcomeRise .6s .06s ease-out both}
+  #apo-v3-site .hero-photo{animation:apoWelcomeRise .65s .16s ease-out both}
+}
 @media(max-width:460px){#apo-v3-site .survey-group-header h3{font-size:1.0625rem}#apo-v3-site .survey-question-group{margin-bottom:23px}}
 </style>
 </head>
