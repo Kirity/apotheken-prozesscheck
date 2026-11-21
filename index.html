@@ -304,8 +304,6 @@
 #apo-v3-site .survey-conditional .field-label{display:block;margin-bottom:10px}
 #apo-v3-site .survey-question-group .choice{margin-bottom:7px}
 #apo-v3-site .survey-card{scroll-margin-top:30px}
-#apo-v3-site .answer-counter{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 6px;margin:0 0 12px;padding:11px 13px;border:1px solid #e2e8df;border-radius:10px;background:#f3f6f0;font-size:.875rem;line-height:1.5;color:#5b7061}
-#apo-v3-site .answer-counter strong{color:#254635;font-weight:750}
 #apo-v3-site .survey-actions{display:flex;align-items:stretch;gap:8px}
 #apo-v3-site .survey-actions .primary{flex:1;min-width:0;min-height:48px;font-size:1rem;padding:12px 14px}
 #apo-v3-site .celebration-card{display:flex;align-items:center;gap:16px;padding:20px;margin-top:18px;border:1px solid #c5dfcb;border-radius:14px;background:linear-gradient(120deg,#edf8ee,#fbfcf3);animation:apoCelebrateIn .35s ease-out}
@@ -447,7 +445,6 @@
 <input autocomplete="email" class="email-input" id="apo3-email" name="email" placeholder="name@beispiel.de" type="email"/>
 <p class="survey-note" data-i18n="emailNote">Nur angeben, wenn Sie eine Rückmeldung wünschen.</p>
 </div>
-<div aria-atomic="true" aria-live="polite" class="answer-counter" id="apo3-answer-counter"><strong id="apo3-answer-count">Noch keine Frage beantwortet</strong><span aria-hidden="true">·</span><span data-i18n="answerRequirement">Nur eine Frage ist erforderlich.</span></div>
 <div class="survey-actions">
 <button class="primary" data-i18n="submit" id="apo3-submit" type="submit">Feedback absenden ↗</button>
 </div>
@@ -510,7 +507,6 @@ interest1:"Ja, ein kurzes Gespräch wäre interessant",interest2:"Vielleicht, ic
 emailLabel:"E-Mail für Rückfragen (optional)",emailNote:"Nur angeben, wenn Sie eine Rückmeldung wünschen.",emailPlaceholder:"name@beispiel.de",
 answerRequired:"Bitte beantworten Sie mindestens eine Frage, bevor Sie Ihr Feedback absenden.",
 retake:"Neue Antwort starten",
-answersZero:"Noch keine Frage beantwortet",answersOne:"1 Frage beantwortet",answersMany:"{count} Fragen beantwortet",answerRequirement:"Nur eine Frage ist erforderlich.",
 celebrationTitle:"Danke fürs Mitmachen!",celebrationBody:"Ihre Erfahrungen helfen, den Apothekenalltag besser zu verstehen.",
 submit:"Feedback absenden ↗",sending:"Feedback wird gesendet …",success:"Vielen Dank! Ihr Feedback wurde erfolgreich übermittelt.",error:"Das Feedback konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
 aboutStep1:"Ein Problem verstehen",aboutStep2:"Eine kleine Lösung ausprobieren",aboutStep3:"Gemeinsam den Nutzen prüfen",aboutEyebrow:"HINTER DIESER SEITE",aboutTitle:"Keine große Software. Erst einmal zuhören.",aboutP1:"Ich habe diese Seite erstellt, weil mich interessiert, wie sich wiederkehrende Verwaltungsaufgaben mit einfachen digitalen Werkzeugen vereinfachen lassen.",aboutP2:"Die vier Beispiele sind zunächst Ideen – keine fertigen Produkte. Entscheidend ist, ob es in Ihrer Apotheke tatsächlich einen Ablauf gibt, bei dem eine kleine Verbesserung hilfreich wäre.",aboutPoint1:"Bestehende Apothekensoftware respektieren",aboutPoint2:"Mit einem überschaubaren Problem beginnen",aboutPoint3:"Zunächst mit Beispieldaten arbeiten",aboutPoint4:"Gemeinsam prüfen, ob sich der Aufwand lohnt",
@@ -539,7 +535,6 @@ interest1:"Yes, I'd be interested in a short conversation",interest2:"Maybe, I'd
 emailLabel:"Contact email (optional)",emailNote:"Only provide this if you'd like a reply.",emailPlaceholder:"name@example.com",
 answerRequired:"Please answer at least one question before sending your feedback.",
 retake:"Start a new response",
-answersZero:"No questions answered yet",answersOne:"1 question answered",answersMany:"{count} questions answered",answerRequirement:"Only one question is required.",
 celebrationTitle:"Thanks for taking part!",celebrationBody:"Your experiences help us understand everyday pharmacy work better.",
 submit:"Send feedback ↗",sending:"Sending feedback …",success:"Thank you! Your feedback has been submitted successfully.",error:"Your feedback could not be sent. Please try again.",
 aboutStep1:"Understand a problem",aboutStep2:"Try a small solution",aboutStep3:"Evaluate the benefit together",aboutEyebrow:"ABOUT THIS PAGE",aboutTitle:"No big software rollout. First, let's listen.",aboutP1:"I created this website because I'm interested in simplifying recurring administrative work with practical digital tools.",aboutP2:"The four examples are ideas, not finished products. What matters is whether there's a real workflow in your pharmacy where a small improvement would be helpful.",aboutPoint1:"Respect existing pharmacy software",aboutPoint2:"Start with one manageable problem",aboutPoint3:"Use fictional sample data first",aboutPoint4:"Evaluate whether the effort is worthwhile together",
@@ -565,7 +560,6 @@ function renderStatic(){
   q("#apo3-submit").textContent=formState==="sending"?T[lang].sending:formState==="success"?T[lang].retake:T[lang].submit;
   q("#apo3-submit").type=formState==="success"?"button":"submit";
   q("#apo3-celebration").hidden=formState!=="success"&&celebrationTimer===null;
-  updateAnswerCounter();
   if(["success","error","answerRequired"].includes(formState))q("#apo3-form-status").textContent=T[lang][formState];
 
   q("#apo3-form").querySelector('input[name="language"]')?.setAttribute("value",lang);
@@ -679,12 +673,6 @@ function answeredQuestionCount(){
       .some(field=>field.matches('input')||field.value.trim().length>0)
   ).length;
 }
-function updateAnswerCounter(){
-  const count=answeredQuestionCount();
-  const text=count===0?T[lang].answersZero:count===1?T[lang].answersOne:T[lang].answersMany.replace('{count}',String(count));
-  const counter=q("#apo3-answer-count");
-  if(counter.textContent!==text)counter.textContent=text;
-}
 function hasSurveyAnswer(){
   return answeredQuestionCount()>0;
 }
@@ -692,7 +680,6 @@ function setSurveyLocked(locked){
   form.querySelectorAll('.question, #apo3-email').forEach(field=>{field.disabled=locked});
 }
 function clearAnswerRequired(){
-  updateAnswerCounter();
   if(formState==="answerRequired"&&hasSurveyAnswer()){
     formState="idle";
     q("#apo3-form-status").textContent="";
@@ -700,7 +687,6 @@ function clearAnswerRequired(){
 }
 form.addEventListener("input",clearAnswerRequired);
 form.addEventListener("change",clearAnswerRequired);
-form.addEventListener("reset",()=>setTimeout(updateAnswerCounter,0));
 q("#apo3-submit").addEventListener("click",event=>{
   if(formState!=="success")return;
   event.preventDefault();
