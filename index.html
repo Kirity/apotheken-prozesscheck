@@ -315,10 +315,15 @@
 #apo-v3-site .garden-sparkles{opacity:0;transform-origin:160px 130px}
 #apo-v3-site .garden-is-growing .garden-plant{transform-origin:160px 214px;animation:apoGardenSway .85s ease-in-out}
 #apo-v3-site .garden-is-growing .garden-sparkles{animation:apoGardenSparkle .9s ease-out}
+#apo-v3-site .garden-pot-glow{opacity:0;transform-origin:160px 244px}
+#apo-v3-site .garden-text-complete .garden-pot{transform-origin:160px 273px;animation:apoPotThanks .85s ease-in-out}
+#apo-v3-site .garden-text-complete .garden-pot-glow{animation:apoPotGlow .85s ease-out}
 #apo-v3-site .survey-botanical{display:none;position:absolute;top:0;bottom:0;right:-144px;width:112px;pointer-events:none}
 #apo-v3-site .survey-botanical svg{position:sticky;top:calc(50vh - 120px);display:block;width:100%;height:240px;opacity:.65}
 @keyframes apoGardenSway{0%,100%{transform:rotate(0)}30%{transform:rotate(-2deg)}65%{transform:rotate(1.5deg)}}
 @keyframes apoGardenSparkle{0%{opacity:0;transform:scale(.8)}35%{opacity:.9}100%{opacity:0;transform:scale(1.12)}}
+@keyframes apoPotThanks{0%,100%{transform:translateY(0) scale(1)}35%{transform:translateY(-5px) scale(1.035)}65%{transform:translateY(1px) scale(.99)}}
+@keyframes apoPotGlow{0%{opacity:0;transform:scale(.85)}35%{opacity:.8}100%{opacity:0;transform:scale(1.18)}}
 @media(min-width:1340px){#apo-v3-site .survey-botanical{display:block}}
 @media(max-width:750px){#apo-v3-site .survey-intro{position:static}#apo-v3-site .survey-garden{display:none}}
 #apo-v3-site .survey-actions{display:flex;align-items:stretch;gap:8px;margin-top:18px}
@@ -425,10 +430,13 @@
 <g transform="translate(203 94)"><g class="garden-growth" data-garden-stage="8"><path d="M0-8C7-14 13-5 8 0C14 7 5 13 0 8C-7 14-13 5-8 0C-14-7-5-13 0-8" fill="#e1b5a3"/><circle r="3.5" fill="#b77f6e"/></g></g>
 <g transform="translate(159 40)"><g class="garden-growth" data-garden-stage="12"><path d="M0-10C9-17 16-7 10 0C17 9 7 16 0 10C-9 17-16 7-10 0C-17-9-7-16 0-10" fill="#e9c879"/><circle r="4.5" fill="#bc8e3c"/></g></g>
 </g>
+<ellipse class="garden-pot-glow" cx="160" cy="244" rx="59" ry="38" fill="#dce9c6"/>
+<g class="garden-pot">
 <path d="M123 223H197L188 268Q160 278 132 268Z" fill="#bd8b71"/>
 <path d="M160 226H197L188 268Q173 273 160 273Z" fill="#ad7962" opacity=".5"/>
 <rect x="118" y="213" width="84" height="15" rx="5" fill="#cc9d81"/>
 <path d="M143 240H177M146 249H174" stroke="#e1b69a" stroke-width="2" stroke-linecap="round"/>
+</g>
 <g class="garden-sparkles" fill="#c6a35b"><path d="m91 112 3-8 3 8 8 3-8 3-3 8-3-8-8-3ZM222 165l2-6 2 6 6 2-6 2-2 6-2-6-6-2ZM205 58l2-5 2 5 5 2-5 2-2 5-2-5-5-2Z"/></g>
 </svg>
 <p class="garden-caption" data-i18n="gardenCaption">Ihre Erfahrungen lassen neue Ideen wachsen.</p>
@@ -618,6 +626,7 @@ let exampleTimer=null,exampleVisible=false,manualExampleSelected=false,exampleIn
 let celebrationTimer=null,celebrationLayer=null;
 const grownQuestions=new Set();
 let gardenPulseTimer=null;
+let potPulseTimer=null,celebratedTextValues=new WeakMap();
 const q=s=>root.querySelector(s),qa=s=>Array.from(root.querySelectorAll(s));
 const mapping={digital:{manual:"digital1",partial:"digital2",covered:"digital3",unsure:"digital4"},interest:{conversation:"interest1",demo:"interest2",feedback:"interest3"}};
 function renderStatic(){
@@ -764,8 +773,24 @@ function updateSurveyGarden(animate=true){
 function resetSurveyGarden(){
   grownQuestions.clear();
   clearTimeout(gardenPulseTimer);
-  q("#apo3-garden").classList.remove('garden-is-growing');
+  clearTimeout(potPulseTimer);
+  celebratedTextValues=new WeakMap();
+  q("#apo3-garden").classList.remove('garden-is-growing','garden-text-complete');
   updateSurveyGarden(false);
+}
+function celebrateTextAnswer(event){
+  const field=event.target;
+  if(!field.matches('.question textarea, .survey-contact-field input')||field.matches(':disabled')||field.closest('[hidden]')||!field.validity.valid)return;
+  const value=field.value.trim();
+  if(!value||celebratedTextValues.get(field)===value)return;
+  celebratedTextValues.set(field,value);
+  if(!window.matchMedia('(min-width: 751px)').matches||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const garden=q("#apo3-garden");
+  clearTimeout(potPulseTimer);
+  garden.classList.remove('garden-text-complete');
+  void garden.offsetWidth;
+  garden.classList.add('garden-text-complete');
+  potPulseTimer=setTimeout(()=>garden.classList.remove('garden-text-complete'),950);
 }
 function hasSurveyAnswer(){
   return answeredQuestionCount()>0;
@@ -782,6 +807,7 @@ function clearAnswerRequired(){
 }
 form.addEventListener("input",clearAnswerRequired);
 form.addEventListener("change",clearAnswerRequired);
+form.addEventListener("focusout",celebrateTextAnswer);
 q("#apo3-submit").addEventListener("click",event=>{
   if(formState!=="success")return;
   event.preventDefault();
